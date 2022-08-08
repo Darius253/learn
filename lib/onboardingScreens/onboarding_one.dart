@@ -1,0 +1,79 @@
+import 'package:flutter/material.dart';
+import 'package:learn/shared/exports.dart';
+
+class OnboardingOne extends StatefulWidget {
+  const OnboardingOne({Key? key}) : super(key: key);
+
+  @override
+  State<OnboardingOne> createState() => _OnboardingOneState();
+}
+
+class _OnboardingOneState extends State<OnboardingOne> {
+  String image = 'assets/images/learning.svg';
+  PageController controller = PageController();
+  int activeImage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(children: [
+        Positioned.fill(
+          child: Opacity(
+            opacity: 0.5,
+            child: SvgPicture.asset(image),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width / 5),
+          child: IgnorePointer(
+            ignoring: true,
+            child: Column(
+              children: [
+                const Expanded(child: SizedBox()),
+                Column(
+                  children: const [
+                    Text(
+                      'Journey to Excellence',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontSize: 22,
+                          height: 1.5,
+                          color: Color(0xFFFFFFFF),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "Be educated so that you can change the world",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white,
+                          height: 1.5,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w300),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 150,
+                )
+              ],
+            ),
+          ),
+        )
+      ]),
+    );
+  }
+}
