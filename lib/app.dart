@@ -12,13 +12,13 @@ class App extends StatelessWidget {
 
     return const GetMaterialApp(
       title: 'Learn',
+      color: Color.fromARGB(255, 67, 64, 255),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: <LocalizationsDelegate>[
         DefaultMaterialLocalizations.delegate,
         DefaultWidgetsLocalizations.delegate,
       ],
-      
-      home:  Welcome() ,
+      home: Welcome(),
     );
   }
 }
