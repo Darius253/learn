@@ -39,18 +39,20 @@ class _WelcomeState extends State<Welcome> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
-                      onPressed: () {
-                        Get.to(() => const SignUP());
-                      },
-                      child: const Text(
-                        'Skip',
-                        style: TextStyle(
-                            color: Color.fromARGB(255, 240, 237, 237),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
+                    pageIndex != 2
+                        ? TextButton(
+                            onPressed: () {
+                              Get.to(() => const SignUP());
+                            },
+                            child: const Text(
+                              'Skip',
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 240, 237, 237),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        : const SizedBox()
                   ],
                 ),
               ),
@@ -83,9 +85,9 @@ class _WelcomeState extends State<Welcome> {
                       },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: const BoxDecoration(
-                      color: Color.fromARGB(234, 24, 8, 250),
-                      borderRadius: BorderRadius.zero),
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(234, 24, 8, 250),
+                      borderRadius: BorderRadius.circular(15)),
                   child: const Center(
                       child: Text(
                     'Next',
