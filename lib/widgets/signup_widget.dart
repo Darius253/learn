@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/shared/exports.dart';
 
@@ -25,8 +26,9 @@ class _SignupWidgetState extends State<SignupWidget> {
   String password = '';
   String confirmpassword = '';
   String phonenumber = '';
-
+  bool obscurePassword = true;
   bool selected = false;
+  bool obscure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -46,11 +48,12 @@ class _SignupWidgetState extends State<SignupWidget> {
               setState(() => username = value);
             },
             decoration: const InputDecoration(
+                suffixIcon: Icon(Icons.person),
                 hintText: 'Username',
                 hintStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                  )),
+                )),
           ),
           const SizedBox(
             height: 15,
@@ -61,24 +64,24 @@ class _SignupWidgetState extends State<SignupWidget> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _fullnameController,
             keyboardType: TextInputType.name,
-            validator: (value) => value!.length < 8
-                ? 'Kindly Provide your Fullname'
-                : null,
+            validator: (value) =>
+                value!.length < 8 ? 'Kindly Provide your Fullname' : null,
             onChanged: (value) {
               setState(() => fullname = value);
             },
             decoration: const InputDecoration(
+                suffixIcon: Icon(Icons.person),
                 hintText: 'Fullname',
                 hintStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                 )),
+                )),
           ),
           const SizedBox(
             height: 15,
           ),
 
-         const SizedBox(
+          const SizedBox(
             height: 15,
           ),
 
@@ -93,11 +96,12 @@ class _SignupWidgetState extends State<SignupWidget> {
               setState(() => email = value);
             },
             decoration: const InputDecoration(
+                suffixIcon: Icon(Icons.mail),
                 hintText: 'Email',
                 hintStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                 )),
+                )),
           ),
           const SizedBox(
             height: 15,
@@ -106,7 +110,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           // Password Field
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            obscureText: true,
+            obscureText: obscurePassword,
             validator: (value) => value!.length < 6
                 ? 'Password should be more than 7 characters'
                 : '',
@@ -114,12 +118,36 @@ class _SignupWidgetState extends State<SignupWidget> {
               setState(() => password = value);
             },
             controller: _passwordController,
-            decoration:const  InputDecoration(
-                hintText: 'Password',
-                hintStyle: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                  )),
+            decoration: InputDecoration(
+              hintText: 'Password',
+              suffixIcon: (password.isNotEmpty)
+                  ? GestureDetector(
+                      onTap: () {
+                        setState(() => obscurePassword = !obscurePassword);
+                      },
+                      child: Icon(
+                        obscurePassword
+                            ? CupertinoIcons.eye
+                            : CupertinoIcons.eye_slash,
+                        color: const Color.fromARGB(255, 33, 54, 243),
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+                        Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 12.0),
+                          child: Icon(
+                            CupertinoIcons.lock,
+                          ),
+                        ),
+                      ],
+                    ),
+              hintStyle: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+              ),
+            ),
           ),
           const SizedBox(
             height: 15,
@@ -128,35 +156,58 @@ class _SignupWidgetState extends State<SignupWidget> {
           // Confirm Password Field
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            obscureText: true,
+            obscureText: obscure,
             controller: _confirmPasswordController,
             keyboardType: TextInputType.visiblePassword,
-            validator: (value) => value != password
+            validator: (value) => value != confirmpassword
                 ? ' Characters should match Password characters'
                 : '',
             onChanged: (value) {
               setState(() => confirmpassword = value);
             },
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
                 hintText: 'Confirm Password',
-                hintStyle: TextStyle(
+                suffixIcon: (confirmpassword.isNotEmpty)
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() => obscure = !obscure);
+                        },
+                        child: Icon(
+                          obscure
+                              ? CupertinoIcons.eye
+                              : CupertinoIcons.eye_slash,
+                          color: const Color.fromARGB(255, 33, 54, 243),
+                        ),
+                      )
+                    : Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: const [
+                          Padding(
+                            padding: EdgeInsets.only(left: 16.0, right: 12.0),
+                            child: Icon(
+                              CupertinoIcons.lock,
+                            ),
+                          ),
+                        ],
+                      ),
+                hintStyle: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
-                   )),
+                )),
           ),
           const SizedBox(
             height: 30,
           ),
           termsAndConditions(),
-          const SizedBox(
-            height: 60,
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.35,
           ),
           Button(
             onPressed: () => _showMyDialog(),
             text: 'Sign Up',
             word: 'Already Have an Account? Sign In',
             onTap: () {
-              // Get.to(() => const SignIn());
+              Get.off(() => const SignIn());
             },
           ),
         ],
@@ -196,22 +247,21 @@ class _SignupWidgetState extends State<SignupWidget> {
           return AlertDialog(
             title: const Text('Create an Account'),
             content: SingleChildScrollView(
-              child: 
-                  ListBody(
-                      children: const <Widget>[
-                        Text('A Subscriber account allows you to: '),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                            '1. Purchase contents on AwStore.\n2. Read and Download(optional) contents on AwStore.'),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                            'Do you wish to proceed with creating an account type via this profile?'),
-                      ],
-                    ),
+              child: ListBody(
+                children: const <Widget>[
+                  Text('A Subscriber account allows you to: '),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                      '1. Purchase contents on AwStore.\n2. Read and Download(optional) contents on AwStore.'),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                      'Do you wish to proceed with creating an account type via this profile?'),
+                ],
+              ),
             ),
             actions: <Widget>[
               TextButton(

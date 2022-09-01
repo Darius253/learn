@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Button extends StatelessWidget {
@@ -18,29 +17,24 @@ class Button extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            Text(
-              text,
-              style: const TextStyle(
-                  fontSize: 21,
-                  fontWeight: FontWeight.bold,
-                  color:  Color.fromARGB(240, 12, 12, 12)),
-            ),
-            const Expanded(child: SizedBox()),
-            Container(
-              decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color.fromARGB(241, 27, 23, 237)),
-              width: 70,
-              height: 70,
-              child: IconButton(
-                icon: const Icon(Icons.arrow_forward),
-                onPressed: onPressed,
-                color: Colors.white,
+        GestureDetector(
+          onTap: onPressed,
+          child: Container(
+            decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 67, 64, 255),
+                borderRadius: BorderRadius.circular(15)),
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.width * 0.15,
+            child: Center(
+              child: Text(
+                text,
+                style: const TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(239, 255, 251, 251)),
               ),
-            )
-          ],
+            ),
+          ),
         ),
         const SizedBox(
           height: 30,
@@ -50,8 +44,7 @@ class Button extends StatelessWidget {
           child: Text(
             word,
             style: const TextStyle(
-                decoration: TextDecoration.underline,
-                fontSize: 15),
+                decoration: TextDecoration.underline, fontSize: 15),
           ),
         )
       ],
