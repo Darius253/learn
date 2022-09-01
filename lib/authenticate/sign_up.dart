@@ -13,7 +13,7 @@ class _SignUPState extends State<SignUP> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(241, 23, 109, 237),
+      backgroundColor: const Color.fromARGB(240, 12, 12, 12),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Stack(
@@ -26,15 +26,16 @@ class _SignUPState extends State<SignUP> {
             ),
             const Back(),
             Padding(
-              padding: const EdgeInsets.only(top: 380.0),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height * 0.5),
               child: Container(
                 color: Colors.white,
                 height: MediaQuery.of(context).size.height,
               ),
             ),
             Padding(
-              padding:
-                  EdgeInsets.only(top: MediaQuery.of(context).size.height / 2.3),
+              padding: EdgeInsets.only(
+                  top: MediaQuery.of(context).size.height / 2.3),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(40),
                 child: Container(
@@ -42,10 +43,14 @@ class _SignUPState extends State<SignUP> {
                   height: MediaQuery.of(context).size.height,
                   child: Padding(
                     padding: const EdgeInsets.only(
-                        top: 50.0, left: 20, right: 20, bottom: 10),
+                      top: 50.0,
+                      left: 20,
+                      right: 20,
+                    ),
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Column(children: const [
+                        DragHandle(),
                         SignupWidget(),
                         SizedBox(
                           height: 20,
