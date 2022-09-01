@@ -55,14 +55,17 @@ class _OnboardingOneState extends State<OnboardingOne> {
                           color: Color(0xFFFFFFFF),
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "Be educated so that you can change the world",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          height: 1.5,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300),
+                    DelayedDisplay(
+                      fadingDuration: Duration(seconds: 1),
+                      child: Text(
+                        "Be educated enough to change the world",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            height: 1.5,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300),
+                      ),
                     )
                   ],
                 ),
