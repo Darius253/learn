@@ -7,8 +7,12 @@ export 'package:learn/authenticate/sign_up.dart';
 export 'package:learn/onboardingScreens/welcome_screen.dart';
 export 'package:learn/widgets/signup_button.dart';
 export 'package:learn/widgets/back_button.dart';
-
+export 'package:learn/widgets/signin_widget.dart';
+export 'package:learn/widgets/drag_handle.dart';
+export 'package:learn/authenticate/sign_in.dart';
+export 'package:learn/authenticate/forgot_password.dart';
 //pub.dev
+export 'package:delayed_display/delayed_display.dart';
 export 'package:smooth_page_indicator/smooth_page_indicator.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:get/get.dart';
