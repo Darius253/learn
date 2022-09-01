@@ -38,7 +38,7 @@ class _OnboardingTwoState extends State<OnboardingTwo> {
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width / 5),
+              horizontal: MediaQuery.of(context).size.width / 4),
           child: IgnorePointer(
             ignoring: true,
             child: Column(
@@ -55,14 +55,17 @@ class _OnboardingTwoState extends State<OnboardingTwo> {
                           color: Color(0xFFFFFFFF),
                           fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "Your growth is in your hands",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Colors.white,
-                          height: 1.5,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300),
+                    DelayedDisplay(
+                      fadingDuration: Duration(seconds: 1),
+                      child: Text(
+                        "Your growth is in your hands",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            height: 1.5,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300),
+                      ),
                     )
                   ],
                 ),
