@@ -64,13 +64,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   setState(() => email = value);
                 },
                 decoration: const InputDecoration(
-                  hintText: 'Email',
+                  hintText: 'darius@gmail.com',
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                  onTap: () => Get.to((const SignIn())),
+                  onTap: () => Get.off(() => const SignIn()),
                   child: const Text('Remember Password? SignIn ')),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
