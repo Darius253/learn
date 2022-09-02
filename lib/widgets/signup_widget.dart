@@ -200,7 +200,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           ),
           termsAndConditions(),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.35,
+            height: MediaQuery.of(context).size.height * 0.2,
           ),
           Button(
             onPressed: () => _showMyDialog(),
