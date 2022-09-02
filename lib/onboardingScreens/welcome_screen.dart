@@ -81,7 +81,7 @@ class _WelcomeState extends State<Welcome> {
                             curve: Curves.ease);
                       }
                     : () {
-                        Get.to(() => const SignUP());
+                        Get.off(() => const SignUP());
                       },
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10),
