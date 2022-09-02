@@ -39,7 +39,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                 hintText: 'berince@gmail.com',
                 suffixIcon: Icon(Icons.mail),
                 hintStyle: TextStyle(
-                  fontSize: 12,
+                  fontSize: 15,
                   fontWeight: FontWeight.w400,
                 )),
           ),
@@ -118,7 +118,7 @@ class _SigninWidgetState extends State<SigninWidget> {
 
   Widget forgotPassword() {
     return GestureDetector(
-      onTap: () => Get.to((const ForgotPassword())),
+      onTap: () => Get.to(() => const ForgotPassword()),
       child: const Text(
         'Forgotten Password?',
         style: TextStyle(color: Color.fromARGB(255, 67, 64, 255), fontSize: 15),
