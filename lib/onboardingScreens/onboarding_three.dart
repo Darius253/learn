@@ -47,7 +47,7 @@ class _OnboardingThreeState extends State<OnboardingThree> {
                 Column(
                   children: const [
                     Text(
-                      'Get Invovled Everywhere',
+                      'Get Involved Everywhere',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           fontSize: 22,
@@ -55,10 +55,9 @@ class _OnboardingThreeState extends State<OnboardingThree> {
                           color: Color(0xFFFFFFFF),
                           fontWeight: FontWeight.bold),
                     ),
-                    
                     DelayedDisplay(
                       fadingDuration: Duration(seconds: 1),
-                      child:Text(
+                      child: Text(
                         "Learn at your pace and at your own comfort",
                         textAlign: TextAlign.center,
                         style: TextStyle(
