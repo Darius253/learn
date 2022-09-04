@@ -103,7 +103,7 @@ class _SigninWidgetState extends State<SigninWidget> {
             onPressed: () {
               if (formKey.currentState!.validate()) {
                 formKey.currentState?.save();
-                loading();
+                Get.off(() => const Home());
               }
               // Navigator.of(context).pop();
             },
