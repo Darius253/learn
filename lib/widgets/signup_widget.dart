@@ -203,7 +203,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             height: MediaQuery.of(context).size.height * 0.2,
           ),
           Button(
-            onPressed: () => _showMyDialog(),
+            onPressed: () => Get.off(() => const Home()),
             text: 'Sign Up',
             word: 'Already Have an Account? Sign In',
             onTap: () {
