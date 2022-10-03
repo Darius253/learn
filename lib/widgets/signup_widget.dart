@@ -203,7 +203,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             height: MediaQuery.of(context).size.height * 0.2,
           ),
           Button(
-            onPressed: () => Get.off(() => const Home()),
+            onPressed: () => Get.to(() => const Home()),
             text: 'Sign Up',
             word: 'Already Have an Account? Sign In',
             onTap: () {
@@ -249,17 +249,10 @@ class _SignupWidgetState extends State<SignupWidget> {
             content: SingleChildScrollView(
               child: ListBody(
                 children: const <Widget>[
-                  Text('A Subscriber account allows you to: '),
-                  SizedBox(
-                    height: 10,
-                  ),
+                 
+                 
                   Text(
-                      '1. Purchase contents on AwStore.\n2. Read and Download(optional) contents on AwStore.'),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                      'Do you wish to proceed with creating an account type via this profile?'),
+                      'Do you wish to proceed with creating an account? '),
                 ],
               ),
             ),
@@ -273,9 +266,9 @@ class _SignupWidgetState extends State<SignupWidget> {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState?.save();
 
-                      // loading();
+                       loading();
                     }
-                    Navigator.of(context).pop();
+                   Get.to(()=>const Home());
                   }),
             ],
           );
