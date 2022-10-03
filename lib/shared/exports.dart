@@ -12,6 +12,10 @@ export 'package:learn/widgets/drag_handle.dart';
 export 'package:learn/authenticate/sign_in.dart';
 export 'package:learn/authenticate/forgot_password.dart';
 export 'package:learn/mainScreens/home.dart';
+export 'package:learn/mainScreens/discover.dart';
+export 'package:learn/mainScreens/search.dart';
+export 'package:learn/mainScreens/settings.dart';
+export 'package:learn/mainScreens/homepage.dart';
 
 //pub.dev
 export 'package:delayed_display/delayed_display.dart';
