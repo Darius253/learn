@@ -32,7 +32,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const Text(
                 'Forgot Password?',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'Poppins'),
               ),
               const SizedBox(height: 10),
               const DelayedDisplay(
@@ -71,7 +71,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const SizedBox(height: 20),
               GestureDetector(
                   onTap: () => Get.off(() => const SignIn()),
-                  child: const Text('Remember Password? SignIn ')),
+                  child: const Text('Remember Password? SignIn',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                      ))),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
