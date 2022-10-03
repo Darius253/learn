@@ -36,7 +36,10 @@ class _SignUPState extends State<SignUP> {
                   const Text(
                     'Create Account',
                     textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: 'Poppins'),
                   ),
                   const SignupWidget(),
                   SizedBox(
