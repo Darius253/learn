@@ -35,7 +35,10 @@ class _SignInState extends State<SignIn> {
               child: Text(
                 'Hello Again',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Poppins'),
               ),
             ),
             // ignore: prefer_const_constructors
@@ -43,9 +46,7 @@ class _SignInState extends State<SignIn> {
               child: Text("Welcome back you've been missed!",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 15,
-                    height: 1.5,
-                  )),
+                      fontSize: 15, height: 1.5, fontFamily: 'Poppins')),
             ),
 
             Padding(
