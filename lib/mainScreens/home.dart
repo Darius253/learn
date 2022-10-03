@@ -1,7 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:learn/shared/exports.dart';
+import 'package:learn/widgets/card.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,43 +12,41 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color.fromARGB(202, 229, 229, 229),
-        body: CustomScrollView(slivers: <Widget>[
-          SliverAppBar(
-            snap: false,
-            pinned: false,
-            floating: false,
-            flexibleSpace: const FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text("Learn",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16.0,
-                  ) //TextStyle
-                  ), //Text
-            ), //FlexibleSpaceBar
-            expandedHeight: 100,
-            backgroundColor: const Color.fromARGB(255, 250, 250, 250),
-            leading: IconButton(
-              icon: const Icon(
-                Icons.menu,
-                color: Colors.black,
-              ),
-              onPressed: () {},
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Container(
+              color: Colors.white,
+              width: 300,
+              height: 150,
             ),
-            actions: const [
-              Padding(
-                padding: EdgeInsets.only(right: 8.0),
-                child: CircleAvatar(
-                  child: Text(
-                    'BA',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+            const SizedBox(
+              height: 50,
+            ),
+            Row(children: [
+              SchoolCard(
+                school: 'Junior High',
+                info: 'Tap Here to view all  Junior High School Subjects ',
+                image: 'assets/images/junior.jpg',
+                onTap: () {},
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              SchoolCard(
+                school: 'Senior High',
+                info: 'Tap Here to view all  Senior High School Subjects ',
+                image: 'assets/images/senior.jpg',
+                onTap: () => ((() {})),
               )
-            ],
-          ),
-        ]));
+            ]),
+          ],
+        ),
+      ),
+    );
   }
 }
