@@ -15,10 +15,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Learn',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.blue,
+          primaryColor: const Color.fromARGB(248, 32, 91, 146)),
       home: const App(),
     );
   }
 }
-
