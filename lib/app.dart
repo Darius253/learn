@@ -18,7 +18,7 @@ class App extends StatelessWidget {
         DefaultMaterialLocalizations.delegate,
         DefaultWidgetsLocalizations.delegate,
       ],
-      home: Home(),
+      home: HomePage(),
     );
   }
 }
