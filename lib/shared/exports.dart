@@ -16,6 +16,10 @@ export 'package:learn/mainScreens/discover.dart';
 export 'package:learn/mainScreens/search.dart';
 export 'package:learn/mainScreens/settings.dart';
 export 'package:learn/mainScreens/homepage.dart';
+export 'package:learn/mainScreens/subject_details.dart';
+export 'package:learn/widgets/subject_cards.dart';
+export 'package:learn/mainScreens/jhs_courses.dart';
+export 'package:learn/widgets/card.dart';
 
 //pub.dev
 export 'package:delayed_display/delayed_display.dart';
