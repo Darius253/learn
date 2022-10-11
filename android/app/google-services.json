@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "273316694549",
+    "firebase_url": "https://learn-ca47e-default-rtdb.firebaseio.com",
+    "project_id": "learn-ca47e",
+    "storage_bucket": "learn-ca47e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:273316694549:android:6c3e9950cacee3b8035c1c",
+        "android_client_info": {
+          "package_name": "com.example.learn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "273316694549-ufdoe1rqdg4496l5m7osnp4815uvn96i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYTBWDT817_UT83WShnD97S1V_m7ypx1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "273316694549-ufdoe1rqdg4496l5m7osnp4815uvn96i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
