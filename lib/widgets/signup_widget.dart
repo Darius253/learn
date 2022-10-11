@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/controllers/user_controller.dart';
+import 'package:learn/services/authservice.dart';
 import 'package:learn/shared/exports.dart';
 
 class SignupWidget extends StatefulWidget {
@@ -10,8 +12,8 @@ class SignupWidget extends StatefulWidget {
 }
 
 class _SignupWidgetState extends State<SignupWidget> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _fullnameController = TextEditingController();
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -20,8 +22,8 @@ class _SignupWidgetState extends State<SignupWidget> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  String username = '';
-  String fullname = '';
+  String firstname = '';
+  String lastname = '';
   String email = '';
   String password = '';
   String confirmpassword = '';
@@ -29,6 +31,12 @@ class _SignupWidgetState extends State<SignupWidget> {
   bool obscurePassword = true;
   bool selected = false;
   bool obscure = true;
+  AuthService authentication = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,20 +44,25 @@ class _SignupWidgetState extends State<SignupWidget> {
       key: formKey,
       child: Column(
         children: [
-          // Username Field
+          // firstname Field
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _usernameController,
+            controller: _firstnameController,
             keyboardType: TextInputType.name,
-            validator: (value) => value!.length < 5
-                ? 'Username should be 5 to 10 characters'
-                : '',
+            validator: (value) =>
+                value!.isEmpty ? 'Kindly Provide your First Name' : null,
             onChanged: (value) {
-              setState(() => username = value);
+              setState(() => firstname = value);
+            },
+            onSaved: (value) {
+              setState(() => firstname = value!);
+            },
+            onFieldSubmitted: (value) {
+              setState(() => firstname = value);
             },
             decoration: const InputDecoration(
                 suffixIcon: Icon(Icons.person),
-                hintText: 'Username',
+                hintText: 'First Name',
                 hintStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -59,19 +72,25 @@ class _SignupWidgetState extends State<SignupWidget> {
             height: 15,
           ),
 
-          // Fullname field
+          // lastname field
           TextFormField(
             autovalidateMode: AutovalidateMode.onUserInteraction,
-            controller: _fullnameController,
+            controller: _lastnameController,
             keyboardType: TextInputType.name,
             validator: (value) =>
-                value!.length < 8 ? 'Kindly Provide your Fullname' : null,
+                value!.isEmpty ? 'Kindly Provide your Last Name' : null,
             onChanged: (value) {
-              setState(() => fullname = value);
+              setState(() => lastname = value);
+            },
+            onSaved: (value) {
+              setState(() => lastname = value!);
+            },
+            onFieldSubmitted: (value) {
+              setState(() => lastname = value);
             },
             decoration: const InputDecoration(
                 suffixIcon: Icon(Icons.person),
-                hintText: 'Fullname',
+                hintText: 'Last Name',
                 hintStyle: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
@@ -95,6 +114,12 @@ class _SignupWidgetState extends State<SignupWidget> {
             onChanged: (value) {
               setState(() => email = value);
             },
+            onSaved: (value) {
+              setState(() => email = value!);
+            },
+            onFieldSubmitted: (value) {
+              setState(() => email = value);
+            },
             decoration: const InputDecoration(
                 suffixIcon: Icon(Icons.mail),
                 hintText: 'Email',
@@ -115,6 +140,12 @@ class _SignupWidgetState extends State<SignupWidget> {
                 ? 'Password should be more than 7 characters'
                 : '',
             onChanged: (value) {
+              setState(() => password = value);
+            },
+            onSaved: (value) {
+              setState(() => password = value!);
+            },
+            onFieldSubmitted: (value) {
               setState(() => password = value);
             },
             controller: _passwordController,
@@ -165,6 +196,9 @@ class _SignupWidgetState extends State<SignupWidget> {
             onChanged: (value) {
               setState(() => confirmpassword = value);
             },
+            onFieldSubmitted: (value) {
+              setState(() => confirmpassword = value);
+            },
             decoration: InputDecoration(
                 hintText: 'Confirm Password',
                 suffixIcon: (confirmpassword.isNotEmpty)
@@ -203,7 +237,12 @@ class _SignupWidgetState extends State<SignupWidget> {
             height: MediaQuery.of(context).size.height * 0.2,
           ),
           Button(
-            onPressed: () => Get.to(() => const Home()),
+            onPressed: () {
+              Get.offAll(() => const HomePage());
+              Get.snackbar('Welcome', 'Account Successfully Created',
+                  duration: const Duration(seconds: 5),
+                  snackPosition: SnackPosition.BOTTOM);
+            },
             text: 'Sign Up',
             word: 'Already Have an Account? Sign In',
             onTap: () {
@@ -249,10 +288,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             content: SingleChildScrollView(
               child: ListBody(
                 children: const <Widget>[
-                 
-                 
-                  Text(
-                      'Do you wish to proceed with creating an account? '),
+                  Text('Do you wish to proceed with creating an account? '),
                 ],
               ),
             ),
@@ -265,29 +301,28 @@ class _SignupWidgetState extends State<SignupWidget> {
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
                       formKey.currentState?.save();
-
-                       loading();
+                      _validateAndSignUp();
                     }
-                   Get.to(()=>const Home());
                   }),
             ],
           );
         },
       );
 
-  Future<void> loading() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return const AlertDialog(
-          title: Text('Please Wait...'),
-          content: SizedBox(
-              width: 150,
-              height: 100,
-              child: Center(child: CircularProgressIndicator.adaptive())),
-        );
-      },
+  Future _validateAndSignUp() async {
+    dynamic result = await authentication.signUp(
+      email: email,
+      password: password,
+      firstname: firstname,
+      lastname: lastname,
     );
+
+    if (result!.contains('Success')) {
+      Get.offAll(() => const HomePage());
+      Get.snackbar('Welcome', 'Account Successfully Created',
+          snackPosition: SnackPosition.BOTTOM);
+    } else {
+      Get.snackbar('Error:', result, snackPosition: SnackPosition.BOTTOM);
+    }
   }
 }
