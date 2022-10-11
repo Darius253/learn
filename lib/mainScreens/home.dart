@@ -1,16 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/mainScreens/shs_courses.dart';
 import 'package:learn/shared/exports.dart';
 
-
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +15,6 @@ class _HomeState extends State<Home> {
         children: [
           Center(
             child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
                 width: 300,
                 height: 50,
                 decoration: BoxDecoration(
@@ -32,7 +26,7 @@ class _HomeState extends State<Home> {
                         border: InputBorder.none,
                         prefixIcon: Icon(
                           CupertinoIcons.search,
-                          color:  Color.fromARGB(248, 32, 91, 146),
+                          color: Color.fromARGB(248, 32, 91, 146),
                         ),
                         suffix: Icon(
                           CupertinoIcons.trash,
@@ -61,7 +55,9 @@ class _HomeState extends State<Home> {
                 school: 'Senior High',
                 info: 'Tap Here to view all  Senior High School Subjects ',
                 image: 'assets/images/senior.jpg',
-                onTap: () => ((() {})),
+                onTap: () => Get.to(
+                  () => const SHSCourses(),
+                ),
               )
             ]),
           ),
