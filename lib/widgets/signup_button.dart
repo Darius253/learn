@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class Button extends StatelessWidget {
   final String text;
   final String word;
-  final GestureTapCallback onTap;
+  final VoidCallback onTap;
   final VoidCallback onPressed;
   const Button(
       {Key? key,
