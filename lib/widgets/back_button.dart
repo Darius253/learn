@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/shared/exports.dart';
 
@@ -11,7 +12,7 @@ class Back extends StatelessWidget {
       child: IconButton(
           onPressed: () => Get.back(),
           icon: const Icon(
-            Icons.arrow_back,
+            CupertinoIcons.back,
             color: Colors.black,
             size: 25,
           )),
