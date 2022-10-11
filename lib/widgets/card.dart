@@ -13,12 +13,11 @@ class SchoolCard extends StatelessWidget {
       required this.onTap})
       : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    return InkWell(
+    return GestureDetector(
       onTap: onTap,
       child: Container(
         color: Colors.transparent,
