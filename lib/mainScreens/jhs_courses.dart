@@ -16,6 +16,13 @@ class _JHSCoursesState extends State<JHSCourses> {
         appBar: AppBar(
             elevation: 0.0,
             backgroundColor: Colors.white,
+            title: const Text(
+              'JHS Subjects',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400),
+            ),
             leading: IconButton(
               icon: const Icon(CupertinoIcons.back, color: Colors.black),
               onPressed: () => Get.back(),
