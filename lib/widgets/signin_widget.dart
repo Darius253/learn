@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/services/authservice.dart';
 import '../shared/exports.dart';
 
 class SigninWidget extends StatefulWidget {
@@ -18,6 +19,7 @@ class _SigninWidgetState extends State<SigninWidget> {
   String email = '';
   String password = '';
   bool obscurePassword = true;
+  AuthService authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +37,15 @@ class _SigninWidgetState extends State<SigninWidget> {
             onChanged: (value) {
               setState(() => email = value);
             },
+            onSaved: (value) {
+              setState(() => password = value!);
+            },
             decoration: const InputDecoration(
                 hintText: 'berince@gmail.com',
                 suffixIcon: Icon(Icons.mail),
                 hintStyle: TextStyle(
                   fontSize: 15,
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w200,
                 )),
           ),
           const SizedBox(
@@ -51,11 +56,14 @@ class _SigninWidgetState extends State<SigninWidget> {
           TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               obscureText: obscurePassword,
-              validator: (value) => value!.length < 6
-                  ? 'Password should be more than 7 characters'
+              validator: (value) => value!.length < 5
+                  ? 'Password should be more than 5 characters'
                   : '',
               onChanged: (value) {
                 setState(() => password = value);
+              },
+              onSaved: (value) {
+                setState(() => password = value!);
               },
               controller: _passwordController,
               decoration: InputDecoration(
@@ -100,12 +108,16 @@ class _SigninWidgetState extends State<SigninWidget> {
             height: MediaQuery.of(context).size.height * 0.13,
           ),
           Button(
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                formKey.currentState?.save();
-                Get.off(() => const Home());
-              }
-              // Navigator.of(context).pop();
+            onPressed: () async {
+              Get.offAll(
+                () => const HomePage(),
+              );
+              Get.snackbar('Welcome Back', '',
+                  duration: const Duration(seconds: 5),
+                  snackPosition: SnackPosition.BOTTOM);
+
+              print(password);
+              print(email);
             },
             text: 'Sign In',
             word: "Don't have an account yet? Sign Up",
