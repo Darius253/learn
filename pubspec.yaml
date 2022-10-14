@@ -49,6 +49,7 @@ dependencies:
   firebase_auth: 
   firebase_storage:
   firebase_core: ^1.24.0
+  firebase_messaging:
 
 
     #P
