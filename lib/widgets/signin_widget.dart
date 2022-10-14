@@ -32,8 +32,7 @@ class _SigninWidgetState extends State<SigninWidget> {
             autovalidateMode: AutovalidateMode.onUserInteraction,
             controller: _emailController,
             keyboardType: TextInputType.emailAddress,
-            validator: (value) =>
-                value!.isEmail ? '' : 'Please provide your email address',
+            validator: (value) => value!.isEmail ? '' : 'Incorrect Email',
             onChanged: (value) {
               setState(() => email = value);
             },
@@ -93,7 +92,7 @@ class _SigninWidgetState extends State<SigninWidget> {
                         ),
                   hintStyle: const TextStyle(
                     fontSize: 12,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w200,
                   ))),
 
           const SizedBox(
@@ -109,19 +108,17 @@ class _SigninWidgetState extends State<SigninWidget> {
           ),
           Button(
             onPressed: () async {
-              Get.offAll(
-                () => const HomePage(),
-              );
-              Get.snackbar('Welcome Back', '',
-                  duration: const Duration(seconds: 5),
-                  snackPosition: SnackPosition.BOTTOM);
-
+              Get.snackbar('Please Wait', 'Signing In...',
+                  showProgressIndicator: true,
+                  snackPosition: SnackPosition.BOTTOM,
+                  duration: const Duration(seconds: 5));
+              _validateAndSignIn();
               print(password);
               print(email);
             },
             text: 'Sign In',
             word: "Don't have an account yet? Sign Up",
-            onTap: () => Get.off(() => const SignUP()),
+            onTap: () => Get.offAll(() => const SignUP()),
           )
         ],
       ),
@@ -138,19 +135,19 @@ class _SigninWidgetState extends State<SigninWidget> {
     );
   }
 
-  Future<void> loading() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: true, // user must tap button!
-      builder: (BuildContext context) {
-        return const AlertDialog(
-          title: Text('Please Wait...'),
-          content: SizedBox(
-              width: 150,
-              height: 100,
-              child: Center(child: CircularProgressIndicator.adaptive())),
-        );
-      },
+  Future _validateAndSignIn() async {
+    formKey.currentState?.save();
+    dynamic result = await authService.login(
+      email: email,
+      password: password,
     );
+
+    if (result!.contains('Success')) {
+      Get.offAll(() => const HomePage());
+      Get.snackbar('Welcome Back', 'Enjoy',
+          snackPosition: SnackPosition.BOTTOM);
+    } else {
+      Get.snackbar('Error:', result, snackPosition: SnackPosition.BOTTOM);
+    }
   }
 }
