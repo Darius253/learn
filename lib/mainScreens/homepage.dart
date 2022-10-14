@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/services/authservice.dart';
 import '../shared/exports.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AuthService _authService = AuthService();
   late int _pageIndex = 0;
   final PageController _pageController = PageController();
   final List<Widget> _pages = [
@@ -220,7 +222,9 @@ class _HomePageState extends State<HomePage> {
                     height: height * 0.3,
                   ),
                   InkWell(
-                    onTap: () async {},
+                    onTap: () async {
+                      _showMyDialog();
+                    },
                     child: const ListTile(
                       leading: Icon(
                         Icons.logout_sharp,
@@ -240,4 +244,38 @@ class _HomePageState extends State<HomePage> {
               ),
             )));
   }
+
+  Future<void> _showMyDialog() async => showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Create an Account'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: const <Widget>[
+                  Text('Do you wish Sign Out? '),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text(
+                  'Yes ',
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                ),
+                onPressed: () {
+                  _authService.signOut();
+                  Navigator.pop(context);
+                },
+              ),
+              TextButton(
+                  child: const Text(
+                    'No ',
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                  ),
+                  onPressed: () => Navigator.pop(context))
+            ],
+          );
+        },
+      );
 }
