@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/mainScreens/form_page.dart';
 import 'package:learn/mainScreens/shs_courses.dart';
 import 'package:learn/shared/exports.dart';
 
@@ -45,7 +46,7 @@ class Home extends StatelessWidget {
                 info: 'Tap Here to view all  Junior High School Subjects ',
                 image: 'assets/images/junior.jpg',
                 onTap: () => Get.to(
-                  () => const JHSCourses(),
+                  () => const FormPage(),
                 ),
               ),
               const SizedBox(
@@ -56,7 +57,7 @@ class Home extends StatelessWidget {
                 info: 'Tap Here to view all  Senior High School Subjects ',
                 image: 'assets/images/senior.jpg',
                 onTap: () => Get.to(
-                  () => const SHSCourses(),
+                  () => const FormPage(),
                 ),
               )
             ]),
