@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn/authenticate/wrapper.dart';
 import 'package:learn/shared/exports.dart';
 
 class App extends StatelessWidget {
@@ -19,7 +20,7 @@ class App extends StatelessWidget {
         DefaultMaterialLocalizations.delegate,
         DefaultWidgetsLocalizations.delegate,
       ],
-      home: Welcome(),
+      home: Wrapper(),
     );
   }
 }
