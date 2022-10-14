@@ -32,7 +32,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               const Text(
                 'Forgot Password?',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'Poppins'),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: 'Poppins'),
               ),
               const SizedBox(height: 10),
               const DelayedDisplay(
@@ -41,7 +44,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: Text(
                   'Enter your registered email below\n to reset your password',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w200),
+                  style: TextStyle(
+                      fontSize: 15, height: 1.5, fontFamily: 'Poppins'),
                 ),
               ),
               SizedBox(
@@ -65,15 +69,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 },
                 decoration: const InputDecoration(
                   hintText: 'darius@gmail.com',
+                  hintStyle: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w200,
+                  ),
                   border: OutlineInputBorder(),
                 ),
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                  onTap: () => Get.off(() => const SignIn()),
+                  onTap: () => Get.offAll(() => const SignIn()),
                   child: const Text('Remember Password? SignIn',
                       style: TextStyle(
                         fontFamily: 'Poppins',
+                        decoration: TextDecoration.underline,
                       ))),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
