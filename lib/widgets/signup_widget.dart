@@ -190,7 +190,7 @@ class _SignupWidgetState extends State<SignupWidget> {
             obscureText: obscure,
             controller: _confirmPasswordController,
             keyboardType: TextInputType.visiblePassword,
-            validator: (value) => value != confirmpassword
+            validator: (value) => value != password
                 ? ' Characters should match Password characters'
                 : '',
             onChanged: (value) {
@@ -238,15 +238,12 @@ class _SignupWidgetState extends State<SignupWidget> {
           ),
           Button(
             onPressed: () {
-              Get.offAll(() => const HomePage());
-              Get.snackbar('Welcome', 'Account Successfully Created',
-                  duration: const Duration(seconds: 5),
-                  snackPosition: SnackPosition.BOTTOM);
+              _showMyDialog();
             },
             text: 'Sign Up',
             word: 'Already Have an Account? Sign In',
             onTap: () {
-              Get.off(() => const SignIn());
+              Get.offAll(() => const SignIn());
             },
           ),
         ],
@@ -299,10 +296,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                     style: TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                   ),
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      formKey.currentState?.save();
-                      _validateAndSignUp();
-                    }
+                    Get.snackbar('Please Wait', 'Creating Account...',
+                        showProgressIndicator: true,
+                        snackPosition: SnackPosition.BOTTOM,
+                        duration: const Duration(seconds: 5));
+
+                    _validateAndSignUp();
+
+                    Navigator.pop(context);
                   }),
             ],
           );
@@ -317,12 +318,14 @@ class _SignupWidgetState extends State<SignupWidget> {
       lastname: lastname,
     );
 
-    if (result!.contains('Success')) {
+    if (result.contains('Success')) {
       Get.offAll(() => const HomePage());
-      Get.snackbar('Welcome', 'Account Successfully Created',
+      Get.snackbar('Welcome ', 'Account  Created Successfully',
           snackPosition: SnackPosition.BOTTOM);
     } else {
-      Get.snackbar('Error:', result, snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar('Error:', result,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 5));
     }
   }
 }
