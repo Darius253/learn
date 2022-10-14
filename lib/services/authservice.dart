@@ -3,7 +3,7 @@ import 'package:learn/services/database.dart';
 import '../shared/exports.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  static final FirebaseAuth _auth = FirebaseAuth.instance;
 
   String? get getCurrentUserID =>
       _auth.currentUser != null ? _auth.currentUser?.uid : '';
@@ -49,7 +49,7 @@ class AuthService {
         email: email,
         lastname: lastname,
       );
-      return _userFromFirebaseUser(user);
+      return 'Success';
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return 'The password provided is too weak.';
@@ -66,6 +66,7 @@ class AuthService {
   Future<dynamic> signOut() async {
     try {
       await _auth.signOut();
+      Get.offAll(const SignIn());
     } catch (error) {
       return error;
     }
