@@ -3,6 +3,7 @@ class Person {
   String? lastname;
   String? email;
   String? password;
+  String? fullname;
   final String? id;
 
   Person({
@@ -11,6 +12,7 @@ class Person {
     this.lastname,
     this.password,
     this.id,
+    this.fullname,
   });
 
   factory Person.fromDocument(var documentSnapshot) {
@@ -19,6 +21,7 @@ class Person {
         firstname: (documentSnapshot.data())['firstname'],
         lastname: (documentSnapshot.data())['lastname'],
         email: (documentSnapshot.data())['email'],
+        fullname: (documentSnapshot.data())['fullname'],
         password: (documentSnapshot.data())['password']);
   }
 
@@ -26,6 +29,7 @@ class Person {
     return Person(
         id: map['id'],
         email: map['email'],
+        fullname: map['fullname'],
         firstname: map['firstname'],
         lastname: map['lastname']);
   }
@@ -35,7 +39,8 @@ class Person {
       'id': id,
       'firstname': firstname,
       'email': email,
-      'lastname': lastname
+      'lastname': lastname,
+       'fullname': fullname
     };
     return map;
   }
