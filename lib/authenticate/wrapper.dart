@@ -1,52 +1,47 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-import '../services/authservice.dart';
-import '../services/database.dart';
 import '../shared/exports.dart';
 
-class Wrapper extends StatefulWidget {
-  const Wrapper({Key? key}) : super(key: key);
+class Wrapper extends GetxController {
+  static Wrapper instance = Get.find();
+  late Rx<User?> _user;
+
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  AuthService authService = AuthService();
 
   @override
-  State<Wrapper> createState() => _WrapperState();
-}
+  void onReady() {
+    super.onReady();
+    _user = Rx<User?>(auth.currentUser);
 
-class _WrapperState extends State<Wrapper> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+    //User will be notified when there is any changes
+    _user.bindStream(auth.userChanges());
+
+    ever(_user, _initialScreen);
   }
 
-  static final AuthService authService = AuthService();
+  _initialScreen(User? user) {
+    if (user == null) {
+      Get.offAll(() => const Welcome());
+    } else {
+      Get.offAll(() => const HomePage());
+    }
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          User? user = snapshot.data;
-          if (user == null) {
-            return const Welcome();
-          }
-        }
-        return FutureBuilder<void>(
-          future: getUserFromFirestore(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return const HomePage();
-            }
-            return Container();
-          },
-        );
-      },
+  Future validateAndSignIn(String email, password) async {
+    dynamic result = await authService.login(
+      email: email,
+      password: password,
     );
-  }
 
-  Future<void> getUserFromFirestore() async {
-    String userId = authService.getCurrentUserID ?? '';
-    DocumentSnapshot docSnap =
-        await FirestoreService.usersCollection.doc(userId).get();
+    if (result!.contains('Success')) {
+      Get.snackbar('Welcome Back', 'Enjoy',
+          snackPosition: SnackPosition.BOTTOM);
+    } else {
+      Get.snackbar('Error:', result,
+          backgroundColor: Colors.redAccent,
+          snackPosition: SnackPosition.BOTTOM,
+          duration: const Duration(seconds: 5));
+    }
   }
 }
