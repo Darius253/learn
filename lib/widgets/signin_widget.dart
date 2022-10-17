@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/authenticate/admin_login.dart';
+import 'package:learn/authenticate/wrapper.dart';
 import 'package:learn/services/authservice.dart';
 import '../shared/exports.dart';
 
@@ -112,14 +114,18 @@ class _SigninWidgetState extends State<SigninWidget> {
                   showProgressIndicator: true,
                   snackPosition: SnackPosition.BOTTOM,
                   duration: const Duration(seconds: 5));
-              _validateAndSignIn();
+              Wrapper.instance.validateAndSignIn(email, password);
               print(password);
               print(email);
             },
             text: 'Sign In',
             word: "Don't have an account yet? Sign Up",
             onTap: () => Get.offAll(() => const SignUP()),
-          )
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          admin(),
         ],
       ),
     );
@@ -135,19 +141,16 @@ class _SigninWidgetState extends State<SigninWidget> {
     );
   }
 
-  Future _validateAndSignIn() async {
-    formKey.currentState?.save();
-    dynamic result = await authService.login(
-      email: email,
-      password: password,
+  Widget admin() {
+    return GestureDetector(
+      onTap: () => Get.to(() => const AdminLogin()),
+      child: const Text(
+        'Sign In as An Admin',
+        style: TextStyle(
+            color: Color.fromARGB(255, 12, 11, 12),
+            decoration: TextDecoration.underline,
+            fontSize: 15),
+      ),
     );
-
-    if (result!.contains('Success')) {
-      Get.offAll(() => const HomePage());
-      Get.snackbar('Welcome Back', 'Enjoy',
-          snackPosition: SnackPosition.BOTTOM);
-    } else {
-      Get.snackbar('Error:', result, snackPosition: SnackPosition.BOTTOM);
-    }
   }
 }
