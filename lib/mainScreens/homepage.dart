@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/services/authservice.dart';
 import '../shared/exports.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,7 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  AuthService _authService = AuthService();
+  final AuthService _authService = AuthService();
   late int _pageIndex = 0;
   final PageController _pageController = PageController();
   final List<Widget> _pages = [
