@@ -48,6 +48,7 @@ class AuthService {
         firstname: firstname,
         email: email,
         lastname: lastname,
+        fullname: "$firstname $lastname",
       );
       return 'Success';
     } on FirebaseAuthException catch (e) {
