@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/mainScreens/form_page.dart';
-import 'package:learn/mainScreens/shs_courses.dart';
 import 'package:learn/shared/exports.dart';
 
 class Home extends StatelessWidget {
