@@ -324,6 +324,7 @@ class _SignupWidgetState extends State<SignupWidget> {
           snackPosition: SnackPosition.BOTTOM);
     } else {
       Get.snackbar('Error:', result,
+          backgroundColor: Colors.redAccent,
           snackPosition: SnackPosition.BOTTOM,
           duration: const Duration(seconds: 5));
     }
