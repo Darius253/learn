@@ -27,12 +27,14 @@ class FirestoreService {
     required String firstname,
     required String email,
     required String lastname,
+    required String fullname
   }) async {
     return await usersCollection.doc(uid).set({
       'id': id,
       'firstname': firstname,
       'lastname': lastname,
       'email': email,
+      'fullname': fullname,
     });
   }
 
