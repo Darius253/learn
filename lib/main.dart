@@ -4,7 +4,7 @@ import 'package:learn/shared/exports.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp().then((value) => Get.put(Wrapper()));
   runApp(const MyApp());
 }
 
