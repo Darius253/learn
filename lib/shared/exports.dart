@@ -22,7 +22,10 @@ export 'package:learn/mainScreens/jhs_courses.dart';
 export 'package:learn/widgets/card.dart';
 export '../models/user_model.dart';
 export 'package:learn/models/subjects_model.dart';
-
+export 'package:learn/controllers/user_controller.dart';
+export 'package:learn/services/authservice.dart';
+export 'package:learn/authenticate/wrapper.dart';
+export 'package:learn/widgets/splashScreen.dart';
 
 //pub.dev
 export 'package:firebase_storage/firebase_storage.dart';
