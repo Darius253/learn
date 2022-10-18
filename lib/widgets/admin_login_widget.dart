@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/mainScreens/admin_home.dart';
 import '../shared/exports.dart';
 
 class AdminLoginWidget extends StatefulWidget {
@@ -125,11 +124,29 @@ class _AdminLoginWidgetState extends State<AdminLoginWidget> {
 
   Widget forgotPassword() {
     return GestureDetector(
-      onTap: () => Get.to(() => const ForgotPassword()),
+      onTap: () async => await sendMail(),
       child: const Text(
         'Forgotten Password?',
         style: TextStyle(color: Color.fromARGB(255, 67, 64, 255), fontSize: 15),
       ),
     );
+  }
+
+  Future<void> sendMail() async {
+    final Email email = Email(
+      body: '',
+      subject: 'Admin Reset Password',
+      recipients: ['trondarius13@gmail.com', 'trontech2021@gmail.com'],
+      isHTML: false,
+    );
+
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (error) {
+      Get.snackbar('Error: ', error.toString(),
+      snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent);
+          
+    }
   }
 }
