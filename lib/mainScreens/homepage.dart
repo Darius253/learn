@@ -201,7 +201,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () async {},
+                    onTap: (() async => await sendMail()),
                     child: const ListTile(
                       leading: Icon(
                         CupertinoIcons.headphones,
@@ -277,4 +277,21 @@ class _HomePageState extends State<HomePage> {
           );
         },
       );
+
+  Future<void> sendMail() async {
+    final Email email = Email(
+      body: '',
+      subject: 'Make a Report or Suggestion',
+      recipients: ['trondarius13@gmail.com', 'trontech2021@gmail.com'],
+      isHTML: false,
+    );
+
+    try {
+      await FlutterEmailSender.send(email);
+    } catch (error) {
+      Get.snackbar('Error: ', error.toString(),
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent);
+    }
+  }
 }
