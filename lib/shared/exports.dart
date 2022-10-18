@@ -26,6 +26,7 @@ export 'package:learn/controllers/user_controller.dart';
 export 'package:learn/services/authservice.dart';
 export 'package:learn/authenticate/wrapper.dart';
 export 'package:learn/widgets/splashScreen.dart';
+export 'package:learn/mainScreens/admin_home.dart';
 
 //pub.dev
 export 'package:firebase_storage/firebase_storage.dart';
@@ -34,3 +35,4 @@ export 'package:delayed_display/delayed_display.dart';
 export 'package:smooth_page_indicator/smooth_page_indicator.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:get/get.dart';
+export 'package:flutter_email_sender/flutter_email_sender.dart';
