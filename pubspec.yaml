@@ -39,6 +39,9 @@ dependencies:
 
   #D
   delayed_display:
+  dotted_border:
+
+  
   #G
   get:
 
@@ -50,6 +53,7 @@ dependencies:
   firebase_storage:
   firebase_core: ^1.24.0
   firebase_messaging:
+  flutter_email_sender:
 
 
     #P
