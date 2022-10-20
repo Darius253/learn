@@ -1,144 +1,307 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:learn/widgets/upload_textfield.dart';
+import '../services/database.dart';
+import '../shared/exports.dart';
 
-final cnameController = TextEditingController();
-final cimageController = TextEditingController();
-final cbranController = TextEditingController();
-final cartController = TextEditingController();
-final cartNameController = TextEditingController();
-final ccharpController = TextEditingController();
-final secTitleController = TextEditingController();
-final contentController = TextEditingController();
+class UploadingWidget extends StatefulWidget {
+  const UploadingWidget({super.key});
 
-addDataWidget(BuildContext, context) {
+  @override
+  State<UploadingWidget> createState() => _UploadingWidgetState();
+}
 
-  final double height = MediaQuery.of(context).size.height;
-  final double width = MediaQuery.of(context).size.width;
+class _UploadingWidgetState extends State<UploadingWidget> {
+  final _dropdownFormKey = GlobalKey<FormState>();
+  PlatformFile? pickedFile;
+  UploadTask? uploadTask;
+  final TextEditingController form = TextEditingController();
+  final TextEditingController school = TextEditingController();
+  final TextEditingController about = TextEditingController();
+  final TextEditingController subjectname = TextEditingController();
+  List file = [];
+  List<String> schoolType = ['Junior High', 'Senior High'];
+  List<DropdownMenuItem<String>> get dropdownItems {
+    List<DropdownMenuItem<String>> menuItems = [
+      const DropdownMenuItem(value: "Junior High", child: Text("Junior High")),
+      const DropdownMenuItem(value: "Senior High", child: Text("Senior High")),
+    ];
+    return menuItems;
+  }
 
-  return showModalBottomSheet(
-      isScrollControlled: true,
-      backgroundColor: Colors.white,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      context: context,
-      builder: (context) {
-        return SizedBox(
-          height: height * 0.75,
-          width: width * MediaQuery.of(context).size.width - 30,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 40,
-                    child: Text(
-                      'Upload a Subject',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 25,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.03),
-                  TextField(
-                    controller: cnameController,
-                    style: const TextStyle(
-                      height: 2.0,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Subject Name',
-                      fillColor: const Color(0xFFF8F8F3),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  //TODO: Make it an image/file picker
-                  SizedBox(height: height * 0.03),
-                  DottedBorder(
-                    radius: const Radius.circular(10),
-                    color: Colors.black,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width - 40,
-                      height: 120,
-                      child: OutlinedButton.icon(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.add,
-                          color: Colors.black38,
-                        ),
-                        label: const Text(
-                          'Select File',
-                          style: TextStyle(color: Colors.black38, fontSize: 20),
-                        ),
-                        style: OutlinedButton.styleFrom(
-                            side: const BorderSide(
-                          color: Colors.transparent,
-                        )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.03),
-                  TextField(
-                    controller: cbranController,
-                    style: const TextStyle(
-                      height: 2.0,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Class',
-                      fillColor: const Color(0xFFF8F8F3),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.03),
-                  TextField(
-                    controller: cartController,
-                    style: const TextStyle(
-                      height: 2.0,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'Type of School',
-                      fillColor: const Color(0xFFF8F8F3),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.03),
-                  TextFormField(
-                    controller: contentController,
-                    maxLines: 8,
-                    maxLength: 1000,
-                    keyboardType: TextInputType.multiline,
-                    style: const TextStyle(
-                      fontSize: 20,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: 'About the Subject',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.02),
-                  ElevatedButton.icon(
-                    onPressed: () {},
-                    label: const Text("Add"),
-                    icon: const Icon(Icons.add),
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(120, 50),
-                      textStyle: const TextStyle(fontSize: 20),
-                      backgroundColor: const Color(0xFF0B3C5D),
-                    ),
-                  ),
-                ],
-              ),
+  List<DropdownMenuItem<String>> get jhs {
+    List<DropdownMenuItem<String>> menuItems = [
+      const DropdownMenuItem(value: "JHS 1", child: Text("JHS 1")),
+      const DropdownMenuItem(value: "JHS 2", child: Text("JHS 2")),
+      const DropdownMenuItem(value: "JHS 3", child: Text("JHS 3")),
+    ];
+    return menuItems;
+  }
+
+  List<DropdownMenuItem<String>> get shs {
+    List<DropdownMenuItem<String>> menuItems = [
+      const DropdownMenuItem(value: "SHS 1", child: Text("SHS 1")),
+      const DropdownMenuItem(value: "SHS 2", child: Text("SHS 2")),
+      const DropdownMenuItem(value: "SHS 3", child: Text("SHS 3")),
+    ];
+    return menuItems;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final double height = MediaQuery.of(context).size.height;
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
             ),
-          ),
-        );
+            child: Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    const SizedBox(
+                      height: 40,
+                      child: Text(
+                        'Upload a Subject',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 25,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: height * 0.03),
+                    textfield(subjectname, 'Subject Name', 1),
+                    SizedBox(height: height * 0.03),
+                    DottedBorder(
+                      radius: const Radius.circular(10),
+                      color:
+                          pickedFile != null ? Colors.redAccent : Colors.black,
+                      child: SizedBox(
+                          width: MediaQuery.of(context).size.width - 40,
+                          height: 120,
+                          child: pickedFile != null
+                              ? GestureDetector(
+                                  onTap: () => selectFile(),
+                                  child: Center(
+                                    child: Text(
+                                      pickedFile!.name,
+                                      style: const TextStyle(
+                                          color:
+                                              Color.fromARGB(255, 14, 56, 194)),
+                                    ),
+                                  ),
+                                )
+                              : OutlinedButton.icon(
+                                  onPressed: () {
+                                    selectFile();
+                                  },
+                                  icon: const Icon(
+                                    Icons.add,
+                                    color: Colors.black38,
+                                  ),
+                                  label: const Text(
+                                    'Select File',
+                                    style: TextStyle(
+                                        color: Colors.black38, fontSize: 20),
+                                  ),
+                                  style: OutlinedButton.styleFrom(
+                                      side: const BorderSide(
+                                    color: Colors.transparent,
+                                  )),
+                                )),
+                    ),
+                    SizedBox(height: height * 0.03),
+                    Form(
+                        key: _dropdownFormKey,
+                        child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            validator: (value) =>
+                                value == null ? "Select School" : null,
+                            dropdownColor:
+                                const Color.fromARGB(255, 243, 245, 248),
+                            value: 'Select School',
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                school.text = newValue!;
+                              });
+                            },
+                            items: dropdownItems)),
+                    SizedBox(height: height * 0.03),
+                    // Form(
+                    //     key: _dropdownFormKey,
+                    //     child: DropdownButtonFormField(
+                    //         decoration: InputDecoration(
+                    //           enabledBorder: OutlineInputBorder(
+                    //             borderSide: const BorderSide(
+                    //                 color: Colors.blue, width: 2),
+                    //             borderRadius: BorderRadius.circular(20),
+                    //           ),
+                    //           border: OutlineInputBorder(
+                    //             borderSide: const BorderSide(
+                    //                 color: Colors.blue, width: 2),
+                    //             borderRadius: BorderRadius.circular(20),
+                    //           ),
+                    //         ),
+                    //         validator: (value) =>
+                    //             value == null ? "Select Class" : null,
+                    //         dropdownColor:
+                    //             const Color.fromARGB(255, 243, 245, 248),
+                    //         value: form.text,
+                    //         onChanged: (String? newValue) {
+                    //           setState(() {
+                    //             form.text = newValue!;
+                    //           });
+                    //         },
+                    //         items: jhs)),
+                    SizedBox(height: height * 0.03),
+                    textfield(about, 'About the Subject', 10),
+                    SizedBox(height: height * 0.02),
+                    ElevatedButton.icon(
+                      onPressed: (() => uploadSubject()),
+                      label: const Text("Add"),
+                      icon: const Icon(Icons.add),
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(120, 50),
+                        textStyle: const TextStyle(fontSize: 20),
+                        backgroundColor: const Color(0xFF0B3C5D),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )),
+      ),
+    );
+  }
+
+  Future<void> selectFile() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+          type: FileType.custom, allowedExtensions: ['ppt', 'pdf', 'pptx']);
+
+      if (result == null) return;
+
+      setState(() {
+        pickedFile = result.files.first;
       });
+      Get.snackbar('Successful', 'File Selected');
+
+      // User canceled the picker
+
+    } on PlatformException catch (e) {
+      Get.snackbar(
+        'Unsupported operation',
+        e.toString(),
+      );
+    }
+  }
+
+  Future uploadSubject() async {
+    if (subjectname.text.isNotEmpty &&
+        form.text.isNotEmpty &&
+        pickedFile != null &&
+        school.text.isNotEmpty &&
+        about.text.isNotEmpty) {
+      Get.snackbar('Uploading Subject', 'Please Wait', isDismissible: false);
+      if (pickedFile != null) {
+        // upload subjects next
+
+        await subjectUrl(
+          file: File(pickedFile!.path!),
+        ).then((url) {
+          file.add(url);
+        });
+      }
+
+      // then upload document to firestore
+      Subject subject = Subject(
+        name: subjectname.text,
+        about: about.text,
+        file: file,
+        subjectID: pickedFile!.name,
+        school: school.text,
+      );
+
+      // FirestoreService instance
+      FirestoreService firestoreService = FirestoreService();
+
+      // Add Subjects to subjects collection
+      await firestoreService.addSubjects(subject: subject);
+
+      // Add this new post to the timeline of his followers
+
+      FirestoreService.subjectsCollection.doc(subject.subjectID).set(
+        {
+          'name': subject.name,
+          'about': subject.about,
+          'file': file,
+          'form': form.text,
+          'school': school.text,
+        },
+      ).then((value) => print('A document was added '));
+
+      FirestoreService.schoolCollection.doc(subject.subjectID).set(
+        {
+          'type': school.text,
+          'class': form.text,
+          'file name': subject.subjectID,
+          'subject ': subject.name,
+        },
+      ).then((value) => print('A document was added'));
+
+      FirestoreService.classCollection.doc(subject.subjectID).set(
+        {
+          'type': school.text,
+          'class': form.text,
+          'file name': subject.subjectID,
+          'subject': subject.name,
+        },
+      ).then((value) => print(''));
+
+      Get.snackbar('Upload Done', 'Subject Uploaded');
+      Get.offAll(() => const AdminHome());
+    } else {
+      Get.snackbar('Upload failed', 'Try Again',
+          backgroundColor: Colors.redAccent);
+    }
+  }
+
+  Future<String> subjectUrl({
+    required File file,
+  }) async {
+    String fileName = pickedFile!.name;
+    final ref = FirebaseStorage.instance.ref().child('Subjects/$fileName');
+    setState(() {
+      uploadTask = ref.putFile(file);
+    });
+    final snapshot = await uploadTask!.whenComplete(() {});
+    var downloadUrl = await snapshot.ref.getDownloadURL();
+    var url = downloadUrl.toString();
+    print(url);
+    setState(() {
+      uploadTask = null;
+    });
+
+    return url;
+  }
 }
