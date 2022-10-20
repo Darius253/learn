@@ -5,6 +5,7 @@ class Subject {
   final String? image;
   final String? school;
   final String? form;
+  final List? file;
 
   Subject(
       {this.about,
@@ -12,6 +13,7 @@ class Subject {
       this.name,
       this.subjectID,
       this.school,
+      this.file,
       this.form});
 
   factory Subject.fromDocument(var documentSnapshot) {
@@ -22,6 +24,7 @@ class Subject {
       subjectID: (documentSnapshot.data())['subjectID'],
       school: (documentSnapshot.data())['school'],
       form: (documentSnapshot.data())['form'],
+      file: (documentSnapshot.data())['file'],
     );
   }
 
@@ -32,6 +35,7 @@ class Subject {
         about: map['about'],
         school: map['school'],
         form: map['form'],
+        file:  map['file'],
         subjectID: map['subjectID']);
   }
 
@@ -43,6 +47,7 @@ class Subject {
       'subjectID': subjectID,
       'school': school,
       'form': form,
+      'file':form,
     };
     return map;
   }
