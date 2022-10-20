@@ -4,9 +4,9 @@ import '../shared/exports.dart';
 
 class FirestoreService {
   // user uid
-  final String uid;
+  final String? uid;
 
-  FirestoreService({required this.uid});
+  FirestoreService({this.uid});
 
   // collection references
   static final CollectionReference subjectsCollection =
@@ -14,7 +14,7 @@ class FirestoreService {
   static final CollectionReference classCollection =
       FirebaseFirestore.instance.collection('class');
 
-  static final CollectionReference schoolCOllection =
+  static final CollectionReference schoolCollection =
       FirebaseFirestore.instance.collection('school');
 
   static final CollectionReference usersCollection =
@@ -22,13 +22,12 @@ class FirestoreService {
 
 // -------------------- Setting stuff -------------------------
 // data for a new user
-  Future setInitialUserData({
-    required String id,
-    required String firstname,
-    required String email,
-    required String lastname,
-    required String fullname
-  }) async {
+  Future setInitialUserData(
+      {required String id,
+      required String firstname,
+      required String email,
+      required String lastname,
+      required String fullname}) async {
     return await usersCollection.doc(uid).set({
       'id': id,
       'firstname': firstname,
