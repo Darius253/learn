@@ -1,7 +1,13 @@
+import 'package:dotted_border/dotted_border.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:learn/widgets/uploaded_subjects.dart';
 import 'package:learn/widgets/uploading_widget.dart';
+
+import '../shared/exports.dart';
+import '../widgets/upload_textfield.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
@@ -11,19 +17,12 @@ class AdminHome extends StatefulWidget {
 }
 
 class _AdminHomeState extends State<AdminHome> {
-  late bool _show = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
+          onPressed: (() => Get.off(() => const UploadingWidget())),
           child: const Icon(CupertinoIcons.add),
-          onPressed: () {
-            // setState(() {
-            //   _show = !_show;
-
-            // });
-            addDataWidget(BuildContext, context);
-          },
         ),
         body: SafeArea(
           child: Padding(
