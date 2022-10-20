@@ -54,6 +54,7 @@ dependencies:
   firebase_core: ^1.24.0
   firebase_messaging:
   flutter_email_sender:
+  file_picker:
 
 
     #P
