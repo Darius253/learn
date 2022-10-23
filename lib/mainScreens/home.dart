@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/mainScreens/form_page.dart';
+import 'package:learn/mainScreens/shs_page.dart';
 import 'package:learn/shared/exports.dart';
 
 class Home extends StatelessWidget {
@@ -56,7 +57,7 @@ class Home extends StatelessWidget {
                 info: 'Tap Here to view all  Senior High School Subjects ',
                 image: 'assets/images/senior.jpg',
                 onTap: () => Get.to(
-                  () => const FormPage(),
+                  () => const ShsPage(),
                 ),
               )
             ]),
