@@ -18,7 +18,7 @@ class _FormPageState extends State<FormPage> {
             elevation: 0.0,
             backgroundColor: Colors.white,
             title: const Text(
-              'Senior High',
+              'Junior High',
               style: TextStyle(
                   color: Colors.black,
                   fontFamily: 'Poppins',
@@ -30,19 +30,35 @@ class _FormPageState extends State<FormPage> {
             )),
         body: Container(
             padding: const EdgeInsets.all(12.0),
-            child: GridView.builder(
-              itemCount: 3,
+            child: GridView(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 2.0,
                   mainAxisSpacing: 2.0),
-              itemBuilder: (BuildContext context, int index) {
-                return SubjectCard(
+              children: [
+                SubjectCard(
                   name: 'JHS 1',
                   image: 'Darius',
-                  onTap: () => Get.to(() => const SubjectDetails()),
-                );
-              },
+                  onTap: () => Get.to(() => const JHSCourses(
+                        formname: 'JHS 1',
+                      )),
+                ),
+                SubjectCard(
+                  name: 'JHS 2',
+                  image: 'Darius',
+                  onTap: () => Get.to(() => const JHSCourses(
+                        formname: 'JHS 2',
+                        
+                      )),
+                ),
+                SubjectCard(
+                  name: 'JHS 3',
+                  image: 'Darius',
+                  onTap: () => Get.to(() => const JHSCourses(
+                        formname: 'JHS 3',
+                      )),
+                ),
+              ],
             )));
   }
 }
