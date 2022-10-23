@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import '../shared/exports.dart';
 
 class SubjectDetails extends StatefulWidget {
-  const SubjectDetails({Key? key}) : super(key: key);
+  final String formname;
+  const SubjectDetails({Key? key, required this.formname}) : super(key: key);
 
   @override
   State<SubjectDetails> createState() => _SubjectDetailsState();
@@ -29,9 +30,9 @@ class _SubjectDetailsState extends State<SubjectDetails> {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            const Text(
-              'Subject Name',
-              style: TextStyle(
+             Text(
+              widget.formname,
+              style: const TextStyle(
                   color: Colors.black,
                   fontSize: 22,
                   fontFamily: 'Poppins',
