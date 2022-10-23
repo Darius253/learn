@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../services/database.dart';
 import '../shared/exports.dart';
 
 class SHSCourses extends StatefulWidget {
-  const SHSCourses({Key? key}) : super(key: key);
+  final String formname;
+  const SHSCourses({Key? key, required this.formname}) : super(key: key);
 
   @override
   State<SHSCourses> createState() => _SHSCoursesState();
@@ -27,21 +30,38 @@ class _SHSCoursesState extends State<SHSCourses> {
               icon: const Icon(CupertinoIcons.back, color: Colors.black),
               onPressed: () => Get.back(),
             )),
-        body: Container(
-            padding: const EdgeInsets.all(12.0),
-            child: GridView.builder(
-              itemCount: 8,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 2.0,
-                  mainAxisSpacing: 2.0),
-              itemBuilder: (BuildContext context, int index) {
-                return SubjectCard(
-                  name: 'Mathematics',
-                  image: 'Darius',
-                  onTap: () => Get.to(() => const SubjectDetails()),
+        body: FutureBuilder(
+            future: FirestoreService.subjectsCollection
+                .where('form', isEqualTo: widget.formname)
+                .get(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return const Center(
+                  child: CircularProgressIndicator.adaptive(),
                 );
-              },
-            )));
+              }
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: Text('No Subjects'),
+                );
+              }
+
+              return GridView(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 2.0,
+                    mainAxisSpacing: 2.0),
+                children: snapshot.data!.docs.map((document) {
+                  return SubjectCard(
+                      name: document['name'],
+                      image: '',
+                      onTap: ((() => Get.to(() => SubjectDetails(
+                            formname:
+                                '${widget.formname}  ' '${document['name']}',
+                          )))));
+                }).toList(),
+              );
+            }));
   }
 }
