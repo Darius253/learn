@@ -18,8 +18,11 @@ class UploadingWidget extends StatefulWidget {
 
 class _UploadingWidgetState extends State<UploadingWidget> {
   final _dropdownFormKey = GlobalKey<FormState>();
+  final _dropdown = GlobalKey<FormState>();
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
+  String dropdownItem = "Junior High";
+  String selectedvalue = "JHS 1";
   final TextEditingController form = TextEditingController();
   final TextEditingController school = TextEditingController();
   final TextEditingController about = TextEditingController();
@@ -34,23 +37,18 @@ class _UploadingWidgetState extends State<UploadingWidget> {
     return menuItems;
   }
 
-  List<DropdownMenuItem<String>> get jhs {
+  List<DropdownMenuItem<String>> get selectedvalues {
     List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(value: "JHS 1", child: Text("JHS 1")),
       const DropdownMenuItem(value: "JHS 2", child: Text("JHS 2")),
       const DropdownMenuItem(value: "JHS 3", child: Text("JHS 3")),
-    ];
-    return menuItems;
-  }
-
-  List<DropdownMenuItem<String>> get shs {
-    List<DropdownMenuItem<String>> menuItems = [
       const DropdownMenuItem(value: "SHS 1", child: Text("SHS 1")),
       const DropdownMenuItem(value: "SHS 2", child: Text("SHS 2")),
       const DropdownMenuItem(value: "SHS 3", child: Text("SHS 3")),
     ];
     return menuItems;
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -139,40 +137,40 @@ class _UploadingWidgetState extends State<UploadingWidget> {
                                 value == null ? "Select School" : null,
                             dropdownColor:
                                 const Color.fromARGB(255, 243, 245, 248),
-                            value: 'Select School',
+                            value: dropdownItem,
                             onChanged: (String? newValue) {
                               setState(() {
-                                school.text = newValue!;
+                                dropdownItem = newValue!;
                               });
                             },
                             items: dropdownItems)),
                     SizedBox(height: height * 0.03),
-                    // Form(
-                    //     key: _dropdownFormKey,
-                    //     child: DropdownButtonFormField(
-                    //         decoration: InputDecoration(
-                    //           enabledBorder: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 color: Colors.blue, width: 2),
-                    //             borderRadius: BorderRadius.circular(20),
-                    //           ),
-                    //           border: OutlineInputBorder(
-                    //             borderSide: const BorderSide(
-                    //                 color: Colors.blue, width: 2),
-                    //             borderRadius: BorderRadius.circular(20),
-                    //           ),
-                    //         ),
-                    //         validator: (value) =>
-                    //             value == null ? "Select Class" : null,
-                    //         dropdownColor:
-                    //             const Color.fromARGB(255, 243, 245, 248),
-                    //         value: form.text,
-                    //         onChanged: (String? newValue) {
-                    //           setState(() {
-                    //             form.text = newValue!;
-                    //           });
-                    //         },
-                    //         items: jhs)),
+                    Form(
+                        key: _dropdown,
+                        child: DropdownButtonFormField(
+                            decoration: InputDecoration(
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              border: OutlineInputBorder(
+                                borderSide: const BorderSide(
+                                    color: Colors.blue, width: 2),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            validator: (value) =>
+                                value == null ? "Select School" : null,
+                            dropdownColor:
+                                const Color.fromARGB(255, 243, 245, 248),
+                            value: selectedvalue,
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedvalue = newValue!;
+                              });
+                            },
+                            items: selectedvalues)),
                     SizedBox(height: height * 0.03),
                     textfield(about, 'About the Subject', 10),
                     SizedBox(height: height * 0.02),
@@ -218,9 +216,9 @@ class _UploadingWidgetState extends State<UploadingWidget> {
 
   Future uploadSubject() async {
     if (subjectname.text.isNotEmpty &&
-        form.text.isNotEmpty &&
+        dropdownItem.isNotEmpty &&
         pickedFile != null &&
-        school.text.isNotEmpty &&
+        selectedvalue.isNotEmpty &&
         about.text.isNotEmpty) {
       Get.snackbar('Uploading Subject', 'Please Wait', isDismissible: false);
       if (pickedFile != null) {
@@ -239,7 +237,8 @@ class _UploadingWidgetState extends State<UploadingWidget> {
         about: about.text,
         file: file,
         subjectID: pickedFile!.name,
-        school: school.text,
+        school: dropdownItem,
+        form: selectedvalue
       );
 
       // FirestoreService instance
@@ -255,15 +254,16 @@ class _UploadingWidgetState extends State<UploadingWidget> {
           'name': subject.name,
           'about': subject.about,
           'file': file,
-          'form': form.text,
-          'school': school.text,
+          'form': selectedvalue,
+          'school': dropdownItem,
         },
       ).then((value) => print('A document was added '));
 
       FirestoreService.schoolCollection.doc(subject.subjectID).set(
         {
-          'type': school.text,
-          'class': form.text,
+          
+          'form': selectedvalue,
+          'school': dropdownItem,
           'file name': subject.subjectID,
           'subject ': subject.name,
         },
@@ -271,8 +271,9 @@ class _UploadingWidgetState extends State<UploadingWidget> {
 
       FirestoreService.classCollection.doc(subject.subjectID).set(
         {
-          'type': school.text,
-          'class': form.text,
+          
+          'form': selectedvalue,
+          'school': dropdownItem,
           'file name': subject.subjectID,
           'subject': subject.name,
         },
