@@ -11,11 +11,6 @@ class FirestoreService {
   // collection references
   static final CollectionReference subjectsCollection =
       FirebaseFirestore.instance.collection('subjects');
-  static final CollectionReference classCollection =
-      FirebaseFirestore.instance.collection('class');
-
-  static final CollectionReference schoolCollection =
-      FirebaseFirestore.instance.collection('school');
 
   static final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection('users');
