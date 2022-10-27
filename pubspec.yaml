@@ -29,6 +29,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: 0.17.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -55,10 +58,17 @@ dependencies:
   firebase_messaging:
   flutter_email_sender:
   file_picker:
+  flutter_file_view: 
+  flutter_pdfview:
 
 
-    #P
+  #H
+  http:
+
+
+  #P
   path_provider:
+  path:
 
   #S
   smooth_page_indicator: ^1.0.0+2
