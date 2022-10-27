@@ -1,11 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:learn/mainScreens/pdf_page.dart';
+import 'package:learn/services/file_viewer.dart';
 import '../shared/exports.dart';
 
 class SubjectDetails extends StatefulWidget {
   final String formname;
-  const SubjectDetails({Key? key, required this.formname}) : super(key: key);
+  final String about;
+  final String name;
+
+  const SubjectDetails(
+      {Key? key,
+      required this.formname,
+      required this.about,
+      required this.name})
+      : super(key: key);
 
   @override
   State<SubjectDetails> createState() => _SubjectDetailsState();
@@ -30,7 +39,7 @@ class _SubjectDetailsState extends State<SubjectDetails> {
         child: SingleChildScrollView(
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-             Text(
+            Text(
               widget.formname,
               style: const TextStyle(
                   color: Colors.black,
@@ -133,18 +142,32 @@ class _SubjectDetailsState extends State<SubjectDetails> {
 
   Widget infoContents() {
     return isSelected
-        ? const Text(
-            '''IBM is the second-largest Predictive, consectetur adipiscing elit. Sit turpis egestas aenean amet ac rhoncus vitae tristique. A sed magna vitae nullam. Accumsan ullamcorper amet congue fermentum egestas purus molestie nam. Dolor, dictumst mauris vestibulum vehicula vel cras. Pellentesque nam congue auctor dolor mattis erat. Pharetra feugiat in justo purus dolor feugiat ultrices. 
-
-Pretium at parturient curabitur eget nunc pharetra. Vitae pharetra adipiscing purus faucibus bibendum. Ultrices mi tristique et enim pretium lacus, vivamus. Augue eget fermentum, mauris viverra. Tristique arcu ipsum risus a arcu pellentesque pharetra velit.
-
-Neque, erat tristique volutpat faucibus mattis vulputate faucibus. Ut phasellus nulla at sociis est, turpis purus. Faucibus donec malesuada tristique quam commodo felis nulla.''',
-            style: TextStyle(
+        ? Text(
+            widget.about,
+            style: const TextStyle(
                 color: Colors.black,
                 fontSize: 14,
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w400),
           )
-        : const Text('Contents');
+        : GestureDetector(
+            onTap: () async {
+              Get.snackbar('Please Wait ', 'The document is loading ',
+                  snackPosition: SnackPosition.BOTTOM);
+              final url = 'Subjects/${widget.name}';
+              final file = await PDFApi.loadFirebase(url);
+              if (file == null) return;
+
+              Get.to(() => PDFViewerPage(file: file, name: widget.name));
+            },
+            child: Text(
+              widget.name,
+              style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 14,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w400),
+            ),
+          );
   }
 }
