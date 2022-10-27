@@ -59,6 +59,8 @@ class _SHSCoursesState extends State<SHSCourses> {
                       onTap: ((() => Get.to(() => SubjectDetails(
                             formname:
                                 '${widget.formname}  ' '${document['name']}',
+                            about: document['about'],
+                            name:document['id'],
                           )))));
                 }).toList(),
               );
