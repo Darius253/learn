@@ -5,7 +5,7 @@ class Subject {
   final String? image;
   final String? school;
   final String? form;
-  final List? file;
+  final String? file;
 
   Subject(
       {this.about,
