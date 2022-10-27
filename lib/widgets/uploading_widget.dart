@@ -27,7 +27,7 @@ class _UploadingWidgetState extends State<UploadingWidget> {
   final TextEditingController school = TextEditingController();
   final TextEditingController about = TextEditingController();
   final TextEditingController subjectname = TextEditingController();
-  List file = [];
+  String file = "";
   List<String> schoolType = ['Junior High', 'Senior High'];
   List<DropdownMenuItem<String>> get dropdownItems {
     List<DropdownMenuItem<String>> menuItems = [
@@ -227,7 +227,7 @@ class _UploadingWidgetState extends State<UploadingWidget> {
         await subjectUrl(
           file: File(pickedFile!.path!),
         ).then((url) {
-          file.add(url);
+          file = url;
         });
       }
 
@@ -256,28 +256,13 @@ class _UploadingWidgetState extends State<UploadingWidget> {
           'file': file,
           'form': selectedvalue,
           'school': dropdownItem,
+          'id':subject.subjectID,
         },
       ).then((value) => print('A document was added '));
 
-      FirestoreService.schoolCollection.doc(subject.subjectID).set(
-        {
-          
-          'form': selectedvalue,
-          'school': dropdownItem,
-          'file name': subject.subjectID,
-          'subject ': subject.name,
-        },
-      ).then((value) => print('A document was added'));
+     
 
-      FirestoreService.classCollection.doc(subject.subjectID).set(
-        {
-          
-          'form': selectedvalue,
-          'school': dropdownItem,
-          'file name': subject.subjectID,
-          'subject': subject.name,
-        },
-      ).then((value) => print(''));
+     
 
       Get.snackbar('Upload Done', 'Subject Uploaded');
       Get.offAll(() => const AdminHome());
