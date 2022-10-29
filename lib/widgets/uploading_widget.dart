@@ -1,10 +1,9 @@
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:learn/widgets/images.dart';
 import 'package:learn/widgets/upload_textfield.dart';
 import '../services/database.dart';
 import '../shared/exports.dart';
@@ -21,6 +20,7 @@ class _UploadingWidgetState extends State<UploadingWidget> {
   final _dropdown = GlobalKey<FormState>();
   PlatformFile? pickedFile;
   UploadTask? uploadTask;
+  String image = '';
   String dropdownItem = "Junior High";
   String selectedvalue = "JHS 1";
   final TextEditingController form = TextEditingController();
@@ -48,7 +48,6 @@ class _UploadingWidgetState extends State<UploadingWidget> {
     ];
     return menuItems;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -215,6 +214,28 @@ class _UploadingWidgetState extends State<UploadingWidget> {
   }
 
   Future uploadSubject() async {
+    if (subjectname.text.contains('English')) {
+      setState(() {
+        image = Images.english;
+      });
+    } else if (subjectname.text.contains('Mathematics')) {
+      setState(() {
+        image = Images.maths;
+      });
+    } else if (subjectname.text.contains('Social Studies')) {
+      setState(() {
+        image = Images.socialStudies;
+      });
+    } else if (subjectname.text.contains('Science')) {
+      setState(() {
+        image = Images.science;
+      });
+    } else {
+      setState(() {
+        image = Images.image;
+      });
+    }
+
     if (subjectname.text.isNotEmpty &&
         dropdownItem.isNotEmpty &&
         pickedFile != null &&
@@ -233,13 +254,13 @@ class _UploadingWidgetState extends State<UploadingWidget> {
 
       // then upload document to firestore
       Subject subject = Subject(
-        name: subjectname.text,
-        about: about.text,
-        file: file,
-        subjectID: pickedFile!.name,
-        school: dropdownItem,
-        form: selectedvalue
-      );
+          name: subjectname.text,
+          about: about.text,
+          file: file,
+          subjectID: pickedFile!.name,
+          school: dropdownItem,
+          image: image,
+          form: selectedvalue);
 
       // FirestoreService instance
       FirestoreService firestoreService = FirestoreService();
@@ -254,15 +275,12 @@ class _UploadingWidgetState extends State<UploadingWidget> {
           'name': subject.name,
           'about': subject.about,
           'file': file,
+          'image':subject.image,
           'form': selectedvalue,
           'school': dropdownItem,
-          'id':subject.subjectID,
+          'id': subject.subjectID,
         },
       ).then((value) => print('A document was added '));
-
-     
-
-     
 
       Get.snackbar('Upload Done', 'Subject Uploaded');
       Get.offAll(() => const AdminHome());

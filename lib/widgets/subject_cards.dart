@@ -24,7 +24,11 @@ class SubjectCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(7),
                   child: Container(
                     color: Colors.grey,
-                    child: Center(child: Text(image)),
+                    child: Image.network(
+                      image,
+                      fit: BoxFit.fill,
+                      filterQuality: FilterQuality.high,
+                    ),
                   ),
                 ),
               ),
