@@ -8,10 +8,12 @@ class SubjectDetails extends StatefulWidget {
   final String formname;
   final String about;
   final String name;
+  final String image;
 
   const SubjectDetails(
       {Key? key,
       required this.formname,
+      required this.image,
       required this.about,
       required this.name})
       : super(key: key);
@@ -57,9 +59,7 @@ class _SubjectDetailsState extends State<SubjectDetails> {
                 borderRadius: BorderRadius.circular(7),
                 color: Colors.grey,
               ),
-              child: const Center(
-                child: Text('Image'),
-              ),
+              child:  Image.network(widget.image,fit: BoxFit.fill,filterQuality: FilterQuality.high,),
             ),
             const SizedBox(
               height: 10,
