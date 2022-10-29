@@ -56,11 +56,12 @@ class _JHSCoursesState extends State<JHSCourses> {
             children: snapshot.data!.docs.map((document) {
               return SubjectCard(
                   name: document['name'],
-                  image: '',
+                  image: document['image'],
                   onTap: ((() => Get.to(() => SubjectDetails(
                         formname: '${widget.formname}  ' '${document['name']}',
                         about: document['about'],
                         name: document['id'],
+                        image: document['image'],
                       )))));
             }).toList(),
           );
