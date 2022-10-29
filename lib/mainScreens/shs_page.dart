@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:learn/mainScreens/shs_courses.dart';
 
 import '../shared/exports.dart';
+import '../widgets/images.dart';
 
 class ShsPage extends StatefulWidget {
   const ShsPage({super.key});
@@ -39,21 +40,21 @@ class _ShsPageState extends State<ShsPage> {
               children: [
                 SubjectCard(
                   name: 'SHS 1',
-                  image: 'Darius',
+                  image: Images.senior,
                   onTap: () => Get.to(() => const SHSCourses(
                         formname: 'SHS 1',
                       )),
                 ),
                 SubjectCard(
                   name: 'SHS 2',
-                  image: 'Darius',
+                  image: Images.senior2,
                   onTap: () => Get.to(() => const SHSCourses(
                         formname: 'SHS 2',
                       )),
                 ),
                 SubjectCard(
                   name: 'SHS 3',
-                  image: 'Darius',
+                  image: Images.senior3,
                   onTap: () => Get.to(() => const SHSCourses(
                         formname: 'SHS 3',
                       )),
