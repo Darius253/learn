@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:learn/widgets/images.dart';
 
 import '../shared/exports.dart';
 
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(
-      const Duration(milliseconds: 2000),
+      const Duration(seconds: 10),
       () {},
     );
   }
@@ -29,8 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SizedBox(
           height: 200,
           width: 150,
-          child: SvgPicture.asset('assets/images/teaching.svg',
-              width: 200, height: 150),
+          child: Image.network(Images.image, width: 300, height: 200),
         ),
       ),
     );
