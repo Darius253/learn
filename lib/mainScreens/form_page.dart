@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../shared/exports.dart';
+import '../widgets/images.dart';
 
 class FormPage extends StatefulWidget {
   const FormPage({super.key});
@@ -38,14 +39,14 @@ class _FormPageState extends State<FormPage> {
               children: [
                 SubjectCard(
                   name: 'JHS 1',
-                  image: 'Darius',
+                  image: Images.junior,
                   onTap: () => Get.to(() => const JHSCourses(
                         formname: 'JHS 1',
                       )),
                 ),
                 SubjectCard(
                   name: 'JHS 2',
-                  image: 'Darius',
+                  image: Images.junior2,
                   onTap: () => Get.to(() => const JHSCourses(
                         formname: 'JHS 2',
                         
@@ -53,7 +54,7 @@ class _FormPageState extends State<FormPage> {
                 ),
                 SubjectCard(
                   name: 'JHS 3',
-                  image: 'Darius',
+                  image: Images.junior3,
                   onTap: () => Get.to(() => const JHSCourses(
                         formname: 'JHS 3',
                       )),
