@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:learn/mainScreens/search.dart';
 import '../shared/exports.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,42 +42,46 @@ class _HomePageState extends State<HomePage> {
             headerSliverBuilder:
                 (BuildContext context, bool innerBoxIsScrolled) {
               return <Widget>[
-                SliverAppBar(
-                  snap: true,
-                  pinned: false,
-                  floating: true,
-                  flexibleSpace: const FlexibleSpaceBar(
-                    centerTitle: true,
-                    title: Text("Learn",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16.0,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w700,
-                        )),
-                  ), //FlexibleSpaceBar
-                  expandedHeight: 100,
-                  backgroundColor: const Color.fromARGB(255, 250, 250, 250),
-                  leading: Builder(
-                      builder: (context) => IconButton(
-                          icon: const Icon(
-                            Icons.menu,
+                SliverOverlapAbsorber(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                  sliver: SliverAppBar(
+                    snap: true,
+                    pinned: false,
+                    floating: true,
+                    flexibleSpace: const FlexibleSpaceBar(
+                      centerTitle: true,
+                      title: Text("Learn",
+                          style: TextStyle(
                             color: Colors.black,
+                            fontSize: 16.0,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w700,
+                          )),
+                    ), //FlexibleSpaceBar
+                    expandedHeight: 100,
+                    backgroundColor: const Color.fromARGB(255, 250, 250, 250),
+                    leading: Builder(
+                        builder: (context) => IconButton(
+                            icon: const Icon(
+                              Icons.menu,
+                              color: Colors.black,
+                            ),
+                            onPressed: () {
+                              Scaffold.of(context).openDrawer();
+                            })),
+                    actions: const [
+                      Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: CircleAvatar(
+                          child: Text(
+                            'BA',
+                            style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: () {
-                            Scaffold.of(context).openDrawer();
-                          })),
-                  actions: const [
-                    Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: CircleAvatar(
-                        child: Text(
-                          'BA',
-                          style: TextStyle(color: Colors.white),
                         ),
-                      ),
-                    )
-                  ],
+                      )
+                    ],
+                  ),
                 ),
               ];
             },
@@ -126,14 +131,15 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () async {
-                      setState(() {
-                        _pageIndex = 1;
-                      });
-                      await Future.delayed(
-                        const Duration(milliseconds: 300),
-                      );
-                      Get.back();
+                    onTap: () {
+                      // setState(() {
+                      //   _pageIndex = 1;
+                      // });
+                      // await Future.delayed(
+                      //   const Duration(milliseconds: 300),
+                      // );
+                      // Get.back();
+                      Get.to(() => const Search());
                     },
                     child: const ListTile(
                       leading: Icon(
