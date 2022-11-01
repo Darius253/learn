@@ -21,5 +21,5 @@ class Images {
   static const String socialStudies =
       'https://highschool-gh.s3.amazonaws.com/0042382edbe5a1cc95c8b32e9eb965a3_social%20studies.jpg';
   static const String science =
-      'https://cdn2.vectorstock.com/i/1000x1000/46/21/chemistry-chemical-science-or-pharmacy-vector-22824621.jpg';
+      'https://www.unc.edu/wp-content/uploads/2022/01/hero_scienceinthestacks-1200x675.jpg';
 }
