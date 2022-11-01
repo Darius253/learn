@@ -26,7 +26,7 @@ class SubjectCard extends StatelessWidget {
                     color: Colors.grey,
                     child: Image.network(
                       image,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                       filterQuality: FilterQuality.high,
                     ),
                   ),
