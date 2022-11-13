@@ -1,7 +1,8 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/mainScreens/search.dart';
+import 'package:learn/services/database.dart';
 import '../shared/exports.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,13 +14,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final AuthService _authService = AuthService();
+  String name = '';
   late int _pageIndex = 0;
+  String userInitial = '';
   final PageController _pageController = PageController();
   final List<Widget> _pages = [
     const Home(),
     const Search(),
     const Discover(),
-    const Settings(),
+    const ProfileSettings(),
   ];
 
   @override
@@ -31,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    getInitials();
   }
 
   @override
@@ -70,13 +74,13 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               Scaffold.of(context).openDrawer();
                             })),
-                    actions: const [
+                    actions: [
                       Padding(
-                        padding: EdgeInsets.only(right: 8.0),
+                        padding: const EdgeInsets.only(right: 8.0),
                         child: CircleAvatar(
                           child: Text(
-                            'BA',
-                            style: TextStyle(color: Colors.white),
+                            userInitial,
+                            style: const TextStyle(color: Colors.white),
                           ),
                         ),
                       )
@@ -254,7 +258,7 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text('Create an Account'),
+            title: const Text('Sign Out'),
             content: SingleChildScrollView(
               child: ListBody(
                 children: const <Widget>[
@@ -299,5 +303,28 @@ class _HomePageState extends State<HomePage> {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.redAccent);
     }
+  }
+
+  getInitials() async {
+    final firebaseUser = FirebaseAuth.instance.currentUser;
+    await FirestoreService.usersCollection
+        .doc(firebaseUser!.uid)
+        .get()
+        .then((DocumentSnapshot doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      name = data['fullname'];
+    });
+
+    List<String> names = name.split(" ");
+    String initials = "";
+    int numWords = 2;
+
+    if (numWords < names.length) {
+      numWords = names.length;
+    }
+    for (var i = 0; i < numWords; i++) {
+      initials += names[i][0];
+    }
+    userInitial = initials;
   }
 }
