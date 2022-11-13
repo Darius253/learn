@@ -59,7 +59,18 @@ class _SubjectDetailsState extends State<SubjectDetails> {
                 borderRadius: BorderRadius.circular(7),
                 color: Colors.grey,
               ),
-              child:  Image.network(widget.image,fit: BoxFit.fill,filterQuality: FilterQuality.high,),
+              child: Image.network(
+                widget.image,
+                fit: BoxFit.fill,
+                filterQuality: FilterQuality.high,
+                loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                },
+              ),
             ),
             const SizedBox(
               height: 10,
