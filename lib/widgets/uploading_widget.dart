@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:learn/widgets/images.dart';
@@ -65,14 +66,28 @@ class _UploadingWidgetState extends State<UploadingWidget> {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    const SizedBox(
+                    SizedBox(
                       height: 40,
-                      child: Text(
-                        'Upload a Subject',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 25,
-                        ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          IconButton(
+                            icon: const Icon(CupertinoIcons.back,
+                                color: Colors.black),
+                            onPressed: () =>
+                                Get.offAll(() => const AdminHome()),
+                          ),
+                          const SizedBox(
+                            width: 50,
+                          ),
+                          const Text(
+                            'Upload a Subject',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 25,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(height: height * 0.03),
@@ -193,8 +208,8 @@ class _UploadingWidgetState extends State<UploadingWidget> {
 
   Future<void> selectFile() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-          type: FileType.custom, allowedExtensions: ['ppt', 'pdf', 'pptx']);
+      FilePickerResult? result = await FilePicker.platform
+          .pickFiles(type: FileType.custom, allowedExtensions: ['pdf']);
 
       if (result == null) return;
 
@@ -275,15 +290,17 @@ class _UploadingWidgetState extends State<UploadingWidget> {
           'name': subject.name,
           'about': subject.about,
           'file': file,
-          'image':subject.image,
+          'image': subject.image,
           'form': selectedvalue,
           'school': dropdownItem,
           'id': subject.subjectID,
         },
-      ).then((value) => print('A document was added '));
+      ).then((value) {});
 
       Get.snackbar('Upload Done', 'Subject Uploaded');
-      Get.offAll(() => const AdminHome());
+      Get.offAll(() => AdminHome(
+            id: subject.subjectID,
+          ));
     } else {
       Get.snackbar('Upload failed', 'Try Again',
           backgroundColor: Colors.redAccent);
@@ -301,7 +318,6 @@ class _UploadingWidgetState extends State<UploadingWidget> {
     final snapshot = await uploadTask!.whenComplete(() {});
     var downloadUrl = await snapshot.ref.getDownloadURL();
     var url = downloadUrl.toString();
-    print(url);
     setState(() {
       uploadTask = null;
     });
