@@ -26,8 +26,15 @@ class SubjectCard extends StatelessWidget {
                     color: Colors.grey,
                     child: Image.network(
                       image,
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       filterQuality: FilterQuality.high,
+                      loadingBuilder: (BuildContext context, Widget child,
+                    ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                },
                     ),
                   ),
                 ),
