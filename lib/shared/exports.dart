@@ -25,7 +25,7 @@ export 'package:learn/models/subjects_model.dart';
 export 'package:learn/controllers/user_controller.dart';
 export 'package:learn/services/authservice.dart';
 export 'package:learn/authenticate/wrapper.dart';
-export 'package:learn/widgets/splashScreen.dart';
+export 'package:learn/widgets/splash_screen.dart';
 export 'package:learn/mainScreens/admin_home.dart';
 
 //pub.dev
