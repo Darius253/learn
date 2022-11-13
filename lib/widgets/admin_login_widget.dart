@@ -33,10 +33,12 @@ class _AdminLoginWidgetState extends State<AdminLoginWidget> {
             keyboardType: TextInputType.emailAddress,
             validator: (value) => value!.isEmail ? '' : 'Incorrect Email',
             onChanged: (value) {
+              value = _emailController.text;
               setState(() => email = value);
             },
             onSaved: (value) {
-              setState(() => password = value!);
+              value = _emailController.text;
+              setState(() => email = value!);
             },
             decoration: const InputDecoration(
                 hintText: 'darius@gmail.com',
@@ -58,9 +60,11 @@ class _AdminLoginWidgetState extends State<AdminLoginWidget> {
                   ? 'Password should be more than 5 characters'
                   : '',
               onChanged: (value) {
+                value = _passwordController.text;
                 setState(() => password = value);
               },
               onSaved: (value) {
+                value = _passwordController.text;
                 setState(() => password = value!);
               },
               controller: _passwordController,
@@ -111,7 +115,21 @@ class _AdminLoginWidgetState extends State<AdminLoginWidget> {
                   showProgressIndicator: true,
                   snackPosition: SnackPosition.BOTTOM,
                   duration: const Duration(seconds: 5));
-              Get.to(() => const AdminHome());
+              dynamic result = await authService.adminLogin(
+                email: email,
+                password: password,
+              );
+
+              if (result!.contains('Success')) {
+                Get.snackbar('Welcome Admin', 'Upload Some Contents',
+                    snackPosition: SnackPosition.BOTTOM);
+                Get.offAll(() =>  const AdminHome());
+              } else {
+                Get.snackbar('Error:', result,
+                    backgroundColor: Colors.redAccent,
+                    snackPosition: SnackPosition.BOTTOM,
+                    duration: const Duration(seconds: 5));
+              }
             },
             text: 'Sign In',
             word: "Not an Admin? Sign In",
@@ -144,9 +162,8 @@ class _AdminLoginWidgetState extends State<AdminLoginWidget> {
       await FlutterEmailSender.send(email);
     } catch (error) {
       Get.snackbar('Error: ', error.toString(),
-      snackPosition: SnackPosition.BOTTOM,
+          snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.redAccent);
-          
     }
   }
 }
