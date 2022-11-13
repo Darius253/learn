@@ -8,11 +8,6 @@ class AuthService {
   String? get getCurrentUserID =>
       _auth.currentUser != null ? _auth.currentUser?.uid : '';
 
-  Person? _userFromFirebaseUser(User user) {
-    // ignore: unnecessary_null_comparison
-    return user != null ? Person(id: user.uid) : null;
-  }
-
   Future<String?> login(
       {required String email, required String password}) async {
     try {
@@ -20,6 +15,30 @@ class AuthService {
       // User? user = result.user;
       // // return _userFromFirebaseUser(user!);
       return 'Success';
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        return 'No user found for that email.';
+      } else if (e.code == 'wrong-password') {
+        return 'Wrong password provided for that user.';
+      } else {
+        return e.message;
+      }
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  // ignore: body_might_complete_normally_nullable
+  Future<String?> adminLogin(
+      {required String email, required String password}) async {
+    try {
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (email == 'apollo@gmail.com' && password == 'projectapollo1234') {
+        return 'Success';
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         return 'No user found for that email.';
@@ -41,7 +60,9 @@ class AuthService {
   }) async {
     try {
       final result = await _auth.createUserWithEmailAndPassword(
-          email: email, password: password);
+        email: email,
+        password: password,
+      );
       User? user = result.user;
       await FirestoreService(uid: user!.uid).setInitialUserData(
         id: user.uid,
