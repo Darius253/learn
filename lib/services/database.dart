@@ -32,20 +32,6 @@ class FirestoreService {
     });
   }
 
-// -------------------- Fetch methods -------------------------
-  // get and make a Person object for a user
-  Future<Person> personFuture() async {
-    DocumentSnapshot document =
-        await FirebaseFirestore.instance.collection("users").doc(uid).get();
-    return Person.fromDocument(document);
-  }
-
-  // get user doc stream
-  Stream<Person> get userData {
-    return usersCollection.doc(uid).snapshots().map((snapshot) {
-      return Person.fromDocument(snapshot);
-    });
-  }
 
 // -------------------- Add methods -------------------------
 
