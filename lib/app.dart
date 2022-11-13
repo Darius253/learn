@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_file_view/flutter_file_view.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:learn/shared/exports.dart';
 
