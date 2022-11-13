@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+class ProfileSettings extends StatefulWidget {
+  const ProfileSettings({Key? key}) : super(key: key);
 
   @override
-  State<Settings> createState() => _SettingsState();
+  State<ProfileSettings> createState() => _ProfileSettingsState();
 }
 
-class _SettingsState extends State<Settings> {
+class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     return const Center(
