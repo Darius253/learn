@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:learn/authenticate/admin_login.dart';
-import 'package:learn/authenticate/wrapper.dart';
-import 'package:learn/services/authservice.dart';
 import '../shared/exports.dart';
 
 class SigninWidget extends StatefulWidget {
@@ -115,8 +113,6 @@ class _SigninWidgetState extends State<SigninWidget> {
                   snackPosition: SnackPosition.BOTTOM,
                   duration: const Duration(seconds: 5));
               Wrapper.instance.validateAndSignIn(email, password);
-              print(password);
-              print(email);
             },
             text: 'Sign In',
             word: "Don't have an account yet? Sign Up",
