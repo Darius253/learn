@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/controllers/user_controller.dart';
-import 'package:learn/services/authservice.dart';
 import 'package:learn/shared/exports.dart';
 
 class SignupWidget extends StatefulWidget {
