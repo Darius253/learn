@@ -22,8 +22,10 @@ class Home extends StatelessWidget {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: const TextField(
-                    decoration: InputDecoration(
+                child:  TextField(
+                  onTap: (() => Get.to(()=> const Search())),
+                    decoration: const InputDecoration(
+                      hintText: 'Search for Subjects',
                         border: InputBorder.none,
                         prefixIcon: Icon(
                           CupertinoIcons.search,
