@@ -14,164 +14,159 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  _SearchState() {
-    searchController.addListener(() {
-      if (searchController.text.isEmpty) {
-        setState(() {
-          searchText = "";
-          filteredSubjects = subjects;
-        });
-      } else {
-        setState(() {
-          searchText = searchController.text;
-        });
-      }
-    });
-  }
-  Widget buildSubjectList() {
-    List tempList = [];
-    List filteredSubjects = [];
-    String searchText = '';
-    List subjects = [];
-
-    for (int i = 0; i < filteredSubjects.length; i++) {
-      if ((filteredSubjects[i].name)
-          .toLowerCase()
-          .contains(searchText.toLowerCase())) {
-        tempList.add(filteredSubjects[i]);
-      }
-    }
-
-    filteredSubjects = tempList;
-
-    return ListView.builder(
-        padding: const EdgeInsets.only(left: 15.0, right: 15.0, bottom: 20.0),
-        shrinkWrap: true,
-        physics: const BouncingScrollPhysics(),
-        itemCount: subjects == null ? 0 : filteredSubjects.length,
-        itemBuilder: (BuildContext context, int index) {
-          Subject subject = filteredSubjects[index];
-          return FutureBuilder(
-              future: FirestoreService.subjectsCollection
-                  .where('about', isLessThanOrEqualTo: searchText)
-                  .get(),
-              builder: (BuildContext context,
-                  AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  );
-                }
-               
-                return GestureDetector(
-                    child: ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(subject.name!),
-                        trailing: Container(
-                          decoration:
-                              const BoxDecoration(shape: BoxShape.rectangle),
-                          child: const Text('Tap Here',
-                              overflow: TextOverflow.clip,
-                              style: TextStyle(color: Colors.green)),
-                        )),
-                    onTap: () => Get.to(() => SubjectDetails(
-                        formname: subject.form!,
-                        image: subject.image!,
-                        about: subject.about!,
-                        name: subject.name!)));
-              });
-        });
-  }
-
-  void fetchSubjects() async {
-    // User snapshots
-    List<QueryDocumentSnapshot> subjectSnapshots = await FirestoreService
-        .subjectsCollection
-        .where('name', isLessThanOrEqualTo: searchText)
-        .get()
-        .then((QuerySnapshot snapshot) {
-      return snapshot.docs;
-    });
-
-    List tempList = [];
-
-    for (DocumentSnapshot documentSnapshot in subjectSnapshots) {
-      tempList.add(
-          Subject.fromMap(documentSnapshot.data() as Map<String, dynamic>));
-    }
-
-    setState(() {
-      subjects = tempList;
-      filteredSubjects = subjects;
-    });
-  }
-
   final TextEditingController searchController = TextEditingController();
 
   List subjects = [];
   List filteredSubjects = [];
   String searchText = '';
 
+  Widget subjectList() {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirestoreService.subjectsCollection.snapshots(),
+      builder: (context, snapshot) {
+        return (snapshot.connectionState == ConnectionState.waiting
+            ? const Center(
+                child: CircularProgressIndicator.adaptive(),
+              )
+            : ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                itemBuilder: (context, index) {
+                  var subject =
+                      snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                  if (subject['about']
+                      .toString()
+                      .toLowerCase()
+                      .contains(searchText.toLowerCase())) {
+                    return ListTile(
+                      onTap: (() => Get.to(
+                            () => SubjectDetails(
+                              formname: subject['form'],
+                              image: subject['image'],
+                              about: subject['about'],
+                              name: subject['name'],
+                            ),
+                          )),
+                      title: Text(subject['name']),
+                      trailing: const Text('Tap Here',
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                              color: Color.fromARGB(255, 44, 30, 236))),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }));
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: SafeArea(
-          child: Column(
-            children: [
-              KeyboardDismisser(
-                gestures: const [
-                  GestureType.onPanDown,
-                  GestureType.onPanUpdateDownDirection
-                ],
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.065,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
-                      child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Search for Subjects',
-                            border: InputBorder.none,
-                            prefixIcon: const Icon(
-                              CupertinoIcons.search,
-                              color: Color.fromARGB(248, 32, 91, 146),
-                            ),
-                            suffix: searchController.text.isNotEmpty
-                                ? IconButton(
-                                    onPressed: () {
-                                      searchController.clear();
-                                    },
-                                    icon: const Icon(
-                                      CupertinoIcons.trash,
-                                      color: Color.fromARGB(248, 32, 91, 146),
-                                    ),
-                                  )
-                                : const SizedBox.shrink(),
-                          )),
+      appBar: searchBar(),
+      body: searchText.isNotEmpty
+          ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15.0),
+              child: StreamBuilder<QuerySnapshot>(
+                stream: FirestoreService.subjectsCollection.snapshots(),
+                builder: (context, snapshot) {
+                  return (snapshot.connectionState == ConnectionState.waiting
+                      ? const Center(
+                          child: CircularProgressIndicator.adaptive(),
+                        )
+                      : ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            var subject = snapshot.data!.docs[index].data()
+                                as Map<String, dynamic>;
+                            if (subject['about']
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(searchText.toLowerCase()) ||
+                                subject['name']
+                                    .toString()
+                                    .toLowerCase()
+                                    .contains(searchText.toLowerCase())) {
+                              return Card(
+                                elevation: 2.0,
+                                shadowColor:
+                                    const Color.fromARGB(255, 77, 75, 75),
+                                child: ListTile(
+                                  onTap: (() => Get.to(
+                                        () => SubjectDetails(
+                                          formname: '${subject['form']} '
+                                              ' ${subject['name']}',
+                                          image: subject['image'],
+                                          about: subject['about'],
+                                          name: subject['id'],
+                                        ),
+                                      )),
+                                  title: Text(subject['name']),
+                                  trailing: const Text('Tap Here',
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 44, 30, 236))),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          }));
+                },
+              ),
+            )
+          : const Center(
+              child: Text('Try Searching for a Subject'),
+            ),
+    );
+  }
+
+  AppBar searchBar() {
+    return AppBar(
+        elevation: 0.0,
+        leading: IconButton(
+          icon: const Icon(CupertinoIcons.back, color: Colors.black),
+          onPressed: () => Get.back(),
+        ),
+        backgroundColor: Colors.white,
+        actions: [
+          KeyboardDismisser(
+            gestures: const [
+              GestureType.onPanDown,
+              GestureType.onPanUpdateDownDirection
+            ],
+            child: Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: TextField(
+                    controller: searchController,
+                    onChanged: (value) {
+                      setState(() {
+                        value = searchController.text;
+                        searchText = value;
+                      });
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'Search for Subjects',
+                      border: InputBorder.none,
+                      prefixIcon: const Icon(
+                        CupertinoIcons.search,
+                        color: Color.fromARGB(248, 32, 91, 146),
+                      ),
+                      suffix: searchController.text.isNotEmpty
+                          ? IconButton(
+                              onPressed: () {
+                                searchController.clear();
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.trash,
+                                color: Color.fromARGB(248, 32, 91, 146),
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     )),
               ),
-              searchText.isNotEmpty && filteredSubjects.isNotEmpty
-                  ? Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: buildSubjectList(),
-                    )
-                  : const Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                      child: Center(
-                        child: Text('Try Searching for a Subject'),
-                      ),
-                    )
-            ],
-          ),
-        ),
-      ),
-    );
+            ),
+          )
+        ]);
   }
 }
