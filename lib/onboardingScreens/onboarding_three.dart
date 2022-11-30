@@ -32,7 +32,7 @@ class _OnboardingThreeState extends State<OnboardingThree> {
       body: Stack(children: [
         Positioned.fill(
           child: Opacity(
-            opacity: 0.5,
+            opacity: 0.9,
             child: SvgPicture.asset(image),
           ),
         ),
@@ -52,7 +52,6 @@ class _OnboardingThreeState extends State<OnboardingThree> {
                       style: TextStyle(
                           fontSize: 22,
                           height: 1.5,
-                          color: Color(0xFFFFFFFF),
                           fontWeight: FontWeight.bold),
                     ),
                     DelayedDisplay(
@@ -61,7 +60,6 @@ class _OnboardingThreeState extends State<OnboardingThree> {
                         "Learn at your pace and at your own comfort",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.white,
                             height: 1.5,
                             fontSize: 15,
                             fontWeight: FontWeight.w300),
