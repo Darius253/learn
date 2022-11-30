@@ -12,7 +12,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String image = 'assets/images/forgotpassword.svg';
   final TextEditingController _emailController = TextEditingController();
 
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   String email = '';
   @override
@@ -59,6 +59,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               TextFormField(
+                key: _formKey,
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
@@ -68,6 +69,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   setState(() => email = value);
                 },
                 decoration: const InputDecoration(
+                  label: Text('Email'),
                   hintText: 'darius@gmail.com',
                   hintStyle: TextStyle(
                     fontSize: 12,
@@ -88,7 +90,33 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 height: MediaQuery.of(context).size.height * 0.05,
               ),
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  try {if (email.isNotEmpty) {
+                    Get.snackbar(
+                      "Please Wait",
+                      "Verifying Details",
+                      snackPosition: SnackPosition.BOTTOM,
+                    );
+                    await FirebaseAuth.instance
+                        .sendPasswordResetEmail(email: email);
+
+                    Get.snackbar(
+                      "A password reset link has been sent to $email",
+                      " Kindly check your inbox or spam",
+                      snackPosition: SnackPosition.BOTTOM,
+                       duration: const Duration(milliseconds: 2000),
+                    );
+                    Get.offAll(()=> const SignIn());
+                  }} catch (e) {
+                    {
+                      Get.snackbar('Error', e.toString(),
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          duration: const Duration(milliseconds: 5000),
+                          snackStyle: SnackStyle.FLOATING);
+                    }
+                  }
+                },
                 child: Container(
                   height: 50,
                   padding: const EdgeInsets.symmetric(vertical: 10),
