@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/widgets/uploaded_subjects.dart';
-import 'package:learn/widgets/uploading_widget.dart';
-
-import '../services/database.dart';
 import '../shared/exports.dart';
 
 class AdminHome extends StatefulWidget {
