@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/mainScreens/form_page.dart';
-import 'package:learn/mainScreens/shs_page.dart';
 import 'package:learn/shared/exports.dart';
 
 class Home extends StatelessWidget {
@@ -23,6 +21,7 @@ class Home extends StatelessWidget {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child:  TextField(
+                  showCursor: false,
                   onTap: (() => Get.to(()=> const Search())),
                     decoration: const InputDecoration(
                       hintText: 'Search for Subjects',
@@ -30,11 +29,7 @@ class Home extends StatelessWidget {
                         prefixIcon: Icon(
                           CupertinoIcons.search,
                           color: Color.fromARGB(248, 32, 91, 146),
-                        ),
-                        suffix: Icon(
-                          CupertinoIcons.trash,
-                          color: Color.fromARGB(248, 32, 91, 146),
-                        )))),
+                        ),))),
           ),
           const SizedBox(
             height: 100,
