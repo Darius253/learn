@@ -34,7 +34,11 @@ class FirestoreService {
 
 
 // -------------------- Add methods -------------------------
-
+Future<Person> personFuture() async {
+    DocumentSnapshot document =
+        await FirebaseFirestore.instance.collection("users").doc(uid).get();
+    return Person.fromDocument(document);
+  }
   // add subject to subject collection
   Future addSubjects({@required Subject? subject}) async {
     await subjectsCollection.doc(subject!.subjectID).set(subject.toMap());
