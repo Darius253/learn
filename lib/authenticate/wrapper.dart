@@ -12,6 +12,7 @@ class Wrapper extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
     _user = Rx<User?>(auth.currentUser);
 
     //User will be notified when there is any changes
@@ -21,13 +22,11 @@ class Wrapper extends GetxController {
   }
 
   _initialScreen(User? user) {
-    if (user == null && user!.uid.isEmpty) {
+    if (user == null) {
       Get.offAll(() => const Welcome());
-    } 
-    else if (user.uid.contains('0Rlq1mpkU7htQY4BskWRKpo4hvM2')) {
+    } else if (user.uid.contains('0Rlq1mpkU7htQY4BskWRKpo4hvM2')) {
       Get.offAll(() => const AdminHome());
-    } 
-    else {
+    } else {
       Get.offAll(() => const HomePage());
     }
   }
