@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/mainScreens/shs_courses.dart';
-
 import '../shared/exports.dart';
-import '../widgets/images.dart';
 
 class ShsPage extends StatefulWidget {
   const ShsPage({super.key});
