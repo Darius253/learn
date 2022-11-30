@@ -1,8 +1,6 @@
 import 'dart:ui';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/services/database.dart';
 import '../shared/exports.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,8 +12,10 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final AuthService _authService = AuthService();
-  String name = '';
-  late int _pageIndex = 0;
+  String username = '';
+  int _pageIndex = 0;
+  Person persondata = Person();
+  final String? currentUserId = AuthService().getCurrentUserID;
   String userInitial = '';
   final PageController _pageController = PageController();
   final List<Widget> _pages = [
@@ -32,64 +32,69 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    getInitials();
-  }
-
-  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
         backgroundColor: const Color.fromARGB(202, 229, 229, 229),
-        body: NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverOverlapAbsorber(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverAppBar(
-                    snap: true,
-                    pinned: false,
-                    floating: true,
-                    flexibleSpace: const FlexibleSpaceBar(
-                      centerTitle: true,
-                      title: Text("Learn",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16.0,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w700,
-                          )),
-                    ), //FlexibleSpaceBar
-                    expandedHeight: 100,
-                    backgroundColor: const Color.fromARGB(255, 250, 250, 250),
-                    leading: Builder(
-                        builder: (context) => IconButton(
-                            icon: const Icon(
-                              Icons.menu,
-                              color: Colors.black,
-                            ),
-                            onPressed: () {
-                              Scaffold.of(context).openDrawer();
-                            })),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: CircleAvatar(
-                          child: Text(
-                            userInitial,
-                            style: const TextStyle(color: Colors.white),
-                          ),
+        body: FutureBuilder<Person>(
+            future: FirestoreService(uid: currentUserId).personFuture(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                    child: CircularProgressIndicator.adaptive());
+              }
+              persondata = snapshot.data!;
+              return NestedScrollView(
+                  headerSliverBuilder:
+                      (BuildContext context, bool innerBoxIsScrolled) {
+                    return <Widget>[
+                      SliverOverlapAbsorber(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
+                            context),
+                        sliver: SliverAppBar(
+                          elevation: 0.0,
+                          snap: true,
+                          pinned: false,
+                          floating: true,
+                          flexibleSpace: const FlexibleSpaceBar(
+                            centerTitle: true,
+                            title: Text("Learn",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16.0,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w700,
+                                )),
+                          ), //FlexibleSpaceBar
+                          expandedHeight: 100,
+                          backgroundColor:
+                              const Color.fromARGB(255, 250, 250, 250),
+                          leading: Builder(
+                              builder: (context) => IconButton(
+                                  icon: const Icon(
+                                    Icons.menu,
+                                    color: Colors.black,
+                                  ),
+                                  onPressed: () {
+                                    Scaffold.of(context).openDrawer();
+                                  })),
+                          actions: [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: CircleAvatar(
+                                child: Text(
+                                  getInitials(persondata.fullname.toString()),
+                                  style: const TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                ),
-              ];
-            },
-            body: _pages[_pageIndex]),
+                      ),
+                    ];
+                  },
+                  body: _pages[_pageIndex]);
+            }),
         drawer: Drawer(
             backgroundColor: const Color.fromARGB(248, 32, 91, 146),
             child: BackdropFilter(
@@ -105,6 +110,16 @@ class _HomePageState extends State<HomePage> {
                         color: Colors.white,
                         fontSize: 24,
                         fontFamily: 'Poppins'),
+                  ),
+                  Text(
+                    persondata.fullname.toString(),
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontFamily: 'Poppins'),
+                  ),
+                  const Divider(
+                    thickness: 1.5,
                   ),
                   SizedBox(
                     height: height * 0.070,
@@ -136,13 +151,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   InkWell(
                     onTap: () {
-                      // setState(() {
-                      //   _pageIndex = 1;
-                      // });
-                      // await Future.delayed(
-                      //   const Duration(milliseconds: 300),
-                      // );
-                      // Get.back();
+                      Get.back();
                       Get.to(() => const Search());
                     },
                     child: const ListTile(
@@ -305,19 +314,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  getInitials() async {
-    final firebaseUser = FirebaseAuth.instance.currentUser;
-    await FirestoreService.usersCollection
-        .doc(firebaseUser!.uid)
-        .get()
-        .then((DocumentSnapshot doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      name = data['fullname'];
-    });
-
-    List<String> names = name.split(" ");
+  String getInitials(fullname) {
+    List<String> names = fullname.split(" ");
     String initials = "";
     int numWords = 2;
+    
 
     if (numWords < names.length) {
       numWords = names.length;
@@ -325,6 +326,7 @@ class _HomePageState extends State<HomePage> {
     for (var i = 0; i < numWords; i++) {
       initials += names[i][0];
     }
-    userInitial = initials;
+    return initials;
+   
   }
 }
