@@ -1,12 +1,7 @@
 import 'dart:io';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:learn/widgets/images.dart';
-import 'package:learn/widgets/upload_textfield.dart';
-import '../services/database.dart';
 import '../shared/exports.dart';
 
 class UploadingWidget extends StatefulWidget {
