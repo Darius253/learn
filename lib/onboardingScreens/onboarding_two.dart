@@ -28,11 +28,11 @@ class _OnboardingTwoState extends State<OnboardingTwo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       body: Stack(children: [
         Positioned.fill(
           child: Opacity(
-            opacity: 0.5,
+            opacity: 0.9,
             child: SvgPicture.asset(image),
           ),
         ),
@@ -52,7 +52,6 @@ class _OnboardingTwoState extends State<OnboardingTwo> {
                       style: TextStyle(
                           fontSize: 22,
                           height: 1.5,
-                          color: Color(0xFFFFFFFF),
                           fontWeight: FontWeight.bold),
                     ),
                     DelayedDisplay(
@@ -61,7 +60,6 @@ class _OnboardingTwoState extends State<OnboardingTwo> {
                         "Your growth is in your hands",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                            color: Colors.white,
                             height: 1.5,
                             fontSize: 15,
                             fontWeight: FontWeight.w300),
