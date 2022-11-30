@@ -1,5 +1,3 @@
-import 'package:learn/services/database.dart';
-
 import '../shared/exports.dart';
 
 class AuthService {
@@ -69,7 +67,7 @@ class AuthService {
         firstname: firstname,
         email: email,
         lastname: lastname,
-        fullname: "$firstname $lastname",
+        fullname: '$firstname $lastname',
       );
       return 'Success';
     } on FirebaseAuthException catch (e) {
