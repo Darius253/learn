@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-import '../shared/constants.dart';
 import '../shared/exports.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -17,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(
       const Duration(seconds: 5),
-      () =>{},
+      () => {},
     );
   }
 
@@ -45,10 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Center(
-              child: DelayedDisplay(
-                delay: Duration(milliseconds: 2000),
-                slidingCurve: Curves.bounceInOut,
-                child: Text(
+              child: Text(
                   "LEARN",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
@@ -60,7 +56,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   textAlign: TextAlign.center,
                 ),
               ),
-            ),
+            
             Expanded(child: SizedBox()),
                Text(
                 "Based on GES Curriculum",
