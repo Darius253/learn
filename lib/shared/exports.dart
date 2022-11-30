@@ -1,14 +1,16 @@
 // LOcal Imports
 export 'package:learn/app.dart';
 export 'package:learn/onboardingScreens/onboarding_one.dart';
+export 'package:learn/mainScreens/form_page.dart';
+export 'package:learn/mainScreens/shs_page.dart';
+export '../services/database.dart';
+export '../shared/constants.dart';
 export 'package:learn/onboardingScreens/onboarding_two.dart';
 export 'package:learn/onboardingScreens/onboarding_three.dart';
 export 'package:learn/authenticate/sign_up.dart';
 export 'package:learn/onboardingScreens/welcome_screen.dart';
 export 'package:learn/widgets/signup_button.dart';
-export 'package:learn/widgets/back_button.dart';
 export 'package:learn/widgets/signin_widget.dart';
-export 'package:learn/widgets/drag_handle.dart';
 export 'package:learn/authenticate/sign_in.dart';
 export 'package:learn/authenticate/forgot_password.dart';
 export 'package:learn/mainScreens/home.dart';
@@ -27,8 +29,17 @@ export 'package:learn/services/authservice.dart';
 export 'package:learn/authenticate/wrapper.dart';
 export 'package:learn/widgets/splash_screen.dart';
 export 'package:learn/mainScreens/admin_home.dart';
+export 'package:learn/widgets/discovermore.dart';
+export 'package:learn/widgets/uploaded_subjects.dart';
+export 'package:learn/widgets/uploading_widget.dart';
+export 'package:learn/widgets/images.dart';
+export 'package:learn/mainScreens/shs_courses.dart';
+export 'package:learn/widgets/upload_textfield.dart';
 
 //pub.dev
+export 'package:dotted_border/dotted_border.dart';
+export 'package:file_picker/file_picker.dart';
+export 'package:keyboard_dismisser/keyboard_dismisser.dart';
 export 'package:firebase_storage/firebase_storage.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:delayed_display/delayed_display.dart';
@@ -36,3 +47,4 @@ export 'package:smooth_page_indicator/smooth_page_indicator.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:get/get.dart';
 export 'package:flutter_email_sender/flutter_email_sender.dart';
+export 'package:url_launcher/url_launcher.dart';
