@@ -51,7 +51,6 @@ dependencies:
 
   #F
   flutter_svg:
-  flutter_image_slideshow:
   firebase_auth: 
   firebase_storage:
   firebase_core: ^1.24.0
@@ -60,6 +59,8 @@ dependencies:
   file_picker:
   flutter_file_view:
   flutter_pdfview:
+  flutter_launcher_icons:
+ 
 
 
   #H
@@ -75,6 +76,8 @@ dependencies:
 
   #S
   smooth_page_indicator: ^1.0.0+2
+  #U
+  url_launcher: 
 
 
 
@@ -83,6 +86,19 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  flutter_native_splash: ^2.2.16
+
+  
+
+
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/LEARN.jpg"
+  min_sdk_android: 21
+  adaptive_icon_foreground: "assets/images/logo.png" 
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
