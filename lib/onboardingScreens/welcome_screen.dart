@@ -47,7 +47,6 @@ class _WelcomeState extends State<Welcome> {
                             child: const Text(
                               'Skip',
                               style: TextStyle(
-                                  color: Color.fromARGB(255, 240, 237, 237),
                                   fontSize: 18,
                                   fontWeight: FontWeight.w500),
                             ),
@@ -92,7 +91,7 @@ class _WelcomeState extends State<Welcome> {
                       child: Text(
                     'Next',
                     style: TextStyle(
-                        fontSize: 18, color: Color.fromARGB(255, 0, 0, 0)),
+                        fontSize: 18, color: Colors.white),
                   )),
                 ),
               ),
