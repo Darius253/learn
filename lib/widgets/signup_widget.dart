@@ -254,6 +254,7 @@ class _SignupWidgetState extends State<SignupWidget> {
       onTap: () {
         setState(() {
           selected = !selected;
+
         });
       },
       child: Row(children: [
@@ -316,7 +317,7 @@ class _SignupWidgetState extends State<SignupWidget> {
       lastname: lastname,
     );
 
-    if (result.contains('Success')) {
+    if (result.contains('Success') && selected == true) {
       Get.offAll(() => const HomePage());
       Get.snackbar('Welcome ', 'Account  Created Successfully',
           snackPosition: SnackPosition.BOTTOM);
