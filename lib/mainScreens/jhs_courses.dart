@@ -1,9 +1,7 @@
 import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:learn/services/database.dart';
 import '../shared/exports.dart';
 
 class JHSCourses extends StatefulWidget {
