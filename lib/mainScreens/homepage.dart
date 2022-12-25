@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,12 +40,16 @@ class _HomePageState extends State<HomePage> {
         body: FutureBuilder<Person>(
             future: FirestoreService(uid: currentUserId).personFuture(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
-                    child: CircularProgressIndicator.adaptive());
+                  child: CircularProgressIndicator.adaptive(),
+                );
               }
-              persondata = snapshot.data!;
-              return NestedScrollView(
+
+              if (snapshot.connectionState == ConnectionState.done) {
+                persondata = snapshot.data!;
+
+                return NestedScrollView(
                   headerSliverBuilder:
                       (BuildContext context, bool innerBoxIsScrolled) {
                     return <Widget>[
@@ -93,7 +98,13 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ];
                   },
-                  body: _pages[_pageIndex]);
+                  body: _pages[_pageIndex],
+                );
+              }
+
+              return const Center(
+                child: CircularProgressIndicator.adaptive(),
+              );
             }),
         drawer: Drawer(
             backgroundColor: const Color.fromARGB(248, 32, 91, 146),
@@ -315,18 +326,27 @@ class _HomePageState extends State<HomePage> {
   }
 
   String getInitials(fullname) {
+    log(fullname);
+
+    // editted here for debugging
     List<String> names = fullname.split(" ");
     String initials = "";
     int numWords = 2;
-    
 
-    if (numWords < names.length) {
-      numWords = names.length;
+    for (var name in names) {
+      if (name.isNotEmpty) {
+        initials += name[0];
+      }
     }
-    for (var i = 0; i < numWords; i++) {
-      initials += names[i][0];
-    }
+
+    //   if (numWords < names.length) {
+    //     numWords = names.length;
+    //   }
+    //   for (var i = 0; i < numWords; i++) {
+    //     initials += names[i][0];
+    //   }
+    //   return initials;
+
     return initials;
-   
   }
 }
