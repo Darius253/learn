@@ -33,6 +33,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    FirestoreService(uid: currentUserId).personFuture();
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -331,7 +338,6 @@ class _HomePageState extends State<HomePage> {
     // editted here for debugging
     List<String> names = fullname.split(" ");
     String initials = "";
-    int numWords = 2;
 
     for (var name in names) {
       if (name.isNotEmpty) {
@@ -339,13 +345,6 @@ class _HomePageState extends State<HomePage> {
       }
     }
 
-    //   if (numWords < names.length) {
-    //     numWords = names.length;
-    //   }
-    //   for (var i = 0; i < numWords; i++) {
-    //     initials += names[i][0];
-    //   }
-    //   return initials;
 
     return initials;
   }
